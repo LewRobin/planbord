@@ -1,5 +1,3 @@
-import Appointment from '../models/Appointment.js';
-
 class RequestValidator {
     constructor() {
         this.appointments = []; // Dit zou normaal gesproken uit een database komen
