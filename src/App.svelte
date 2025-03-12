@@ -1,7 +1,8 @@
 <script>
-    import Greeting from './components/Greeting.svelte';
-
-    let name = "World 2";
+    import AppointmentForm from './components/AppointmentForm.svelte';
 </script>
 
-<Greeting {name}/>
+<main>
+    <h1>Afspraak Systeem</h1>
+    <AppointmentForm/>
+</main>
