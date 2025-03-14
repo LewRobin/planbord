@@ -4,6 +4,6 @@ COPY . .
 RUN npm ci
 RUN npm run build
 RUN npm prune --production
-EXPOSE 5000
+EXPOSE 8080
 ENV HOST=0.0.0.0
 CMD [ "npm", "start" ]
