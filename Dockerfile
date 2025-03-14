@@ -1,18 +1,9 @@
-FROM ubuntu:latest
-LABEL authors="robin"
-
-ENTRYPOINT ["top", "-b"]
-
-FROM node:18
-
+FROM node:22.14.0
 WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
 COPY . .
-
+RUN npm ci
+RUN npm run build
+RUN npm prune --production
 EXPOSE 5000
-
-CMD ["npm", "run", "dev"]
+ENV HOST=0.0.0.0
+CMD [ "npm", "start" ]
