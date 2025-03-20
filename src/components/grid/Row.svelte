@@ -53,7 +53,6 @@
 </script>
 
 <div class="row">
-    <h2>{asset}</h2>
     <div class="cells">
         {#each cells as cell (cell.key)}
             <Cell {...cell}/>
@@ -65,9 +64,10 @@
     .cells {
         display: flex;
         white-space: nowrap;
+        height: 100px;
     }
 
     .row {
-        margin-bottom: 10px;
+        height: 100px;
     }
 </style>
