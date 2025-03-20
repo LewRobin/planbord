@@ -1,5 +1,6 @@
 <script lang="ts">
     import Row from './Row.svelte';
+    import Timeline from "./Timeline.svelte";
 
     export let assets: string[];
 
@@ -14,19 +15,7 @@
         <h2>Asset 3</h2>
     </div>
     <div class="grid-container">
-        <div class="header">
-            {#if viewMode === 'hours'}
-                {#each Array(24 * amountOfDays) as _, index}
-                    <div class="header-cell">
-                        {new Date(index * 60 * 60 * 1000).getUTCHours().toString().padStart(2, "0")}:00
-                    </div>
-                {/each}
-            {:else}
-                {#each Array(amountOfDays) as _, day}
-                    <div class="header-cell">Day {day + 1}</div>
-                {/each}
-            {/if}
-        </div>
+        <Timeline {amountOfDays} {viewMode}/>
         <div class="rows">
             {#each assets as asset}
                 <Row asset={asset} days={amountOfDays} appointments={appointments} viewMode={viewMode}/>
@@ -53,18 +42,6 @@
         overflow-x: auto;
         white-space: nowrap;
         width: 100%;
-    }
-
-    .header {
-        display: flex;
-        flex-wrap: nowrap;
-    }
-
-    .header-cell {
-        min-width: 120px;
-        text-align: center;
-        font-weight: bold;
-        border: 1px solid #ccc;
     }
 
     .rows {

@@ -3,7 +3,7 @@
     import Appointments from '../src/components/grid/Appointments.svelte';
 
     let assets = ["Asset 1", "Asset 2", "Asset 3"];
-    let amountOfDays = 3;
+    let amountOfDays = 14;
     let viewMode = 'hours';
 
     let appointments = [
@@ -12,7 +12,6 @@
         {asset: 'Asset 2', startTime: 0, endTime: 12, day: 1, color: 'green'},
         {asset: 'Asset 2', startTime: 13, endTime: 22, day: 2, color: 'orange'},
         {asset: 'Asset 3', startTime: 0, endTime: 12, day: 2, color: 'pink'}
-
     ];
 
     function handleAddAppointment(event: CustomEvent) {
