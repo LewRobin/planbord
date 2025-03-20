@@ -1,73 +1,67 @@
 <script lang="ts">
     import Cell from './Cell.svelte';
+    import {calculateWidth, calculateLeft, calculateTime} from "./calculations";
 
-    export let asset: string;
-    export let days: number;
-    export let appointments: { asset: string; startTime: number; endTime: number; day: number; color: string }[];
-    export let viewMode: string;
+    export let appointments: { asset: string; startTime: number; endTime: number; }[];
+    export let pixelsPerMinute: number = 1;
 
-    let cells = [];
-    const totalHoursInADay = 24;
+    const timeScales = {
+        halfHour: 7.5,
+        hour: 15,
+        day: 15 * 24,
+        week: 15 * 24 * 7
+    };
 
-    // reactively generate cells based on view mode
-    $: {
-        cells = [];
-        for (let day = 0; day < days; day++) {
-            for (let hour = 0; hour < (viewMode === 'hours' ? totalHoursInADay : 1); hour++) {
-                let cellTime = day * totalHoursInADay + hour;
+    let selectedScale = timeScales.hour;
 
-                let cell = {
-                    key: cellTime,
-                    time: cellTime,
-                    isAppointment: false,
-                    color: 'transparent'
-                };
+    const minutesPerCell = selectedScale;
+    const minimumTime = 15;
 
-                let appointment = appointments.find(appointment =>
-                    appointment.asset === asset &&
-                    appointment.day === day &&
-                    hour >= appointment.startTime && hour < appointment.endTime
-                );
-
-                if (appointment) {
-                    cell = {...cell, isAppointment: true, color: appointment.color};
-                }
-
-                if (viewMode === 'days') {
-                    let dayAppointment = appointments.find(appointment =>
-                        appointment.asset === asset &&
-                        appointment.day === day &&
-                        appointment.startTime < totalHoursInADay &&
-                        appointment.endTime > 0
-                    );
-
-                    if (dayAppointment) {
-                        cell = {...cell, isAppointment: true, color: dayAppointment.color};
-                    }
-                }
-
-                cells = [...cells, cell];
-            }
-        }
-    }
+    // some dummy appointments
+    appointments = [
+        {asset: "Boot 1", startTime: 0, endTime: 0 + (4 * minimumTime)},
+        // { asset: "Boot 2", startTime: 300, endTime: 300 + (6 * minimumTime)},
+        // { asset: "Boot 3", startTime: 480, endTime: 480 + (8 * minimumTime)},
+        {asset: "Boot 4", startTime: 60, endTime: 60 + (1 * minimumTime)},
+        // { asset: "Boot 4", startTime: 75, endTime: 75 + (1 * minimumTime) },
+        // { asset: "Boot 4", startTime: 90, endTime: 90 + (1 * minimumTime) },
+        // { asset: "Boot 5", startTime: 600, endTime: 600 + (400 * minimumTime) },
+    ];
 </script>
 
 <div class="row">
+    {#each appointments as appointment}
+        <div class="appointment"
+             style="
+                left: {calculateLeft(appointment.startTime)}px;
+                width: {calculateWidth(appointment.startTime, appointment.endTime)}px;">
+        </div>
+    {/each}
+
+    <!--    TODO add lazy loading for the cells here-->
     <div class="cells">
-        {#each cells as cell (cell.key)}
-            <Cell {...cell}/>
+        {#each Array(600 * (60 / minutesPerCell)) as _, i}
+            <Cell pixelsPerMinute={pixelsPerMinute}/>
         {/each}
     </div>
 </div>
 
 <style>
+    .appointment {
+        position: absolute;
+        height: 50px;
+        border-radius: 15px;
+        border: 1px dotted black;
+    }
+
     .cells {
         display: flex;
         white-space: nowrap;
-        height: 100px;
+        height: 50px;
     }
 
     .row {
-        height: 100px;
+        height: 50px;
+        position: relative;
     }
 </style>
