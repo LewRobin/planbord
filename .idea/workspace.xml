@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="SCRUM-58-Feature-Switching-timescales">
-      <change afterPath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" afterDir="false" />
+    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="First steps to calculating appointments within the grid">
+      <change afterPath="$PROJECT_DIR$/src/components/grid/AfsprakenOverlay.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/grid/Grid.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Grid.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/Row.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Row.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/calculations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/calculations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/AppointmentManager.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/AppointmentManager.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,18 +24,19 @@
       <list>
         <option value="Dockerfile" />
         <option value="Geeting" />
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
         <option value="Colomn" />
         <option value="Appointments" />
         <option value="Timeline" />
+        <option value="AfsprakenOverlay" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="SCRUM-59-Adding-appointments" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -88,7 +93,7 @@
     "Node.js.server.js.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "SCRUM-58-Feature-Switching-timescales",
+    "git-widget-placeholder": "SCRUM-56-Make-dynamic-resizable-grid",
     "last_opened_file_path": "D:/template-master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -217,7 +222,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742460361118</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="First steps to calculating appointments within the grid">
+      <option name="closed" value="true" />
+      <created>1742486603655</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1742486603671</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,7 +263,8 @@
     <MESSAGE value="Added new version of grid without Gantt library" />
     <MESSAGE value="Basic version from POC" />
     <MESSAGE value="SCRUM-58-Feature-Switching-timescales" />
-    <option name="LAST_COMMIT_MESSAGE" value="SCRUM-58-Feature-Switching-timescales" />
+    <MESSAGE value="First steps to calculating appointments within the grid" />
+    <option name="LAST_COMMIT_MESSAGE" value="First steps to calculating appointments within the grid" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

@@ -1,10 +1,13 @@
 <script lang="ts">
     export let amountOfDays: number;
-    export let viewMode: string;
 
-    //TODO add this to an option menu and fix dayWidth calc when dynamic grid calc is complete
-    const hoursPerDay = 24;
-    const dayWidth = 122 * hoursPerDay - 2;
+    import {calculateTimeline, getSelectedScale} from "./calculations";
+
+    const timeScales = {
+        hour: 15,
+        day: 15 * 24,
+        week: 15 * 24 * 7
+    };
 
     const currentDate = new Date();
 
@@ -15,6 +18,8 @@
             return date;
         });
     };
+
+    const selectedScale = getSelectedScale();
 
     const dateRange = getDates(amountOfDays);
 
@@ -31,15 +36,24 @@
 </script>
 
 <div>
-    {#if viewMode === 'hours'}
+    {#if selectedScale === timeScales.hour}
         <div class="day-header">
-            {#each dateRange as date, index}
-                <div class="header-cell " style="min-width: {dayWidth}px;">
-                    {index % 1 === 0 ? date.toLocaleDateString() : ''}
+            {#each dateRange as date}
+                <div class="header-cell" style="width: {calculateTimeline(selectedScale) * 24 - 2}px;">
+                    {date.toLocaleDateString()}
                 </div>
             {/each}
         </div>
-    {:else }
+        <div class="hour-header">
+            {#each Array(amountOfDays) as _, index}
+                {#each Array(24) as _, index}
+                    <div class="header-cell" style="width: {calculateTimeline(selectedScale) - 2}px;">
+                        {index.toString().padStart(2, "0")}:00
+                    </div>
+                {/each}
+            {/each}
+        </div>
+    {:else if selectedScale === timeScales.day}
         <div class="week-header">
             {#each dateRange as date}
                 <div class="header-cell {isWeekend(date) ? 'weekend' : ''}" style="min-width: {120}px;">
@@ -47,21 +61,22 @@
                 </div>
             {/each}
         </div>
-    {/if}
-
-    <div class="header">
-        {#if viewMode === 'hours'}
-            {#each Array(24 * amountOfDays) as _, index}
-                <div class="header-cell">
-                    {new Date(index * 60 * 60 * 1000).getUTCHours().toString().padStart(2, "0")}:00
+        <div class="day-header">
+            {#each dateRange as date}
+                <div class="header-cell" style="width: {selectedScale * 4 - 2}px;">
+                    {date.toLocaleDateString()}
                 </div>
             {/each}
-        {:else}
+        </div>
+    {:else if selectedScale === timeScales.week}
+        <div class="week-header">
             {#each dateRange as date}
-                <div class="header-cell">{date.toLocaleDateString()}</div>
+                <div class="header-cell {isWeekend(date) ? 'weekend' : ''}" style="min-width: {120}px;">
+                    {date.toLocaleDateString()}
+                </div>
             {/each}
-        {/if}
-    </div>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -77,6 +92,10 @@
         background-color: #e0e0e0;
     }
 
+    .hour-header {
+        display: flex;
+    }
+
     .day-header {
         display: flex;
         flex-wrap: nowrap;
@@ -85,7 +104,6 @@
     }
 
     .header-cell {
-        min-width: 120px;
         text-align: center;
         border: 1px solid #ccc;
         position: relative;

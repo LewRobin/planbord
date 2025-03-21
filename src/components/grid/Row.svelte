@@ -1,28 +1,20 @@
 <script lang="ts">
     import Cell from './Cell.svelte';
-    import {calculateWidth, calculateLeft, calculateTime} from "./calculations";
-
+    import {calculateWidth, calculateLeft, getSelectedScale} from "./calculations";
     export let appointments: { asset: string; startTime: number; endTime: number; }[];
     export let pixelsPerMinute: number = 1;
+    export let minimumTime;
 
-    const timeScales = {
-        halfHour: 7.5,
-        hour: 15,
-        day: 15 * 24,
-        week: 15 * 24 * 7
-    };
-
-    let selectedScale = timeScales.hour;
+    const selectedScale = getSelectedScale();
 
     const minutesPerCell = selectedScale;
-    const minimumTime = 15;
 
     // some dummy appointments
     appointments = [
-        {asset: "Boot 1", startTime: 0, endTime: 0 + (4 * minimumTime)},
+        {asset: "Boot 1", startTime: 0, endTime: 0 + (4 * 15)},
         // { asset: "Boot 2", startTime: 300, endTime: 300 + (6 * minimumTime)},
-        // { asset: "Boot 3", startTime: 480, endTime: 480 + (8 * minimumTime)},
-        {asset: "Boot 4", startTime: 60, endTime: 60 + (1 * minimumTime)},
+        {asset: "Boot 3", startTime: 1742432400, endTime: 1742450400},
+        {asset: "Boot 4", startTime: 60, endTime: 60 + (1 * 15)},
         // { asset: "Boot 4", startTime: 75, endTime: 75 + (1 * minimumTime) },
         // { asset: "Boot 4", startTime: 90, endTime: 90 + (1 * minimumTime) },
         // { asset: "Boot 5", startTime: 600, endTime: 600 + (400 * minimumTime) },

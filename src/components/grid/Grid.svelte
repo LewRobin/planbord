@@ -1,13 +1,11 @@
 <script lang="ts">
     import Row from './Row.svelte';
     import Timeline from "./Timeline.svelte";
-
     export let assets: string[];
-
     export let amountOfDays: number;
     export let appointments: { asset: string; startTime: number; endTime: number; day: number; color: string }[];
-    export let viewMode: string;
 </script>
+
 <div class="main-container">
     <div class="asset-container">
         <h2>Asset 1</h2>
@@ -15,15 +13,14 @@
         <h2>Asset 3</h2>
     </div>
     <div class="grid-container">
-        <Timeline {amountOfDays} {viewMode}/>
+        <Timeline {amountOfDays}/>
         <div class="rows">
             {#each assets as asset}
-                <Row asset={asset} days={amountOfDays} appointments={appointments} viewMode={viewMode}/>
+                <Row days={amountOfDays} appointments={appointments}/>
             {/each}
         </div>
     </div>
 </div>
-
 
 <style>
     .main-container {
@@ -39,9 +36,11 @@
     .grid-container {
         display: flex;
         flex-direction: column;
-        overflow-x: auto;
+        /*overflow-x: auto;*/
         white-space: nowrap;
-        width: 100%;
+        border: 1px solid red;
+        /*TODO calc this according to appointments*/
+        height: 192px;
     }
 
     .rows {
