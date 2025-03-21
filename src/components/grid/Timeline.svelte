@@ -1,25 +1,28 @@
 <script lang="ts">
+    import {unixTimestampToDate} from './calculations'
     export let amountOfDays: number;
+    export let appointments: { asset: string; startTime: number; endTime: number; }[];
 
-    import {calculateTimeline, getSelectedScale} from "./calculations";
+    appointments = [];
 
-    const timeScales = {
-        hour: 15,
-        day: 15 * 24,
-        week: 15 * 24 * 7
+    import {calculateTimeline, getSelectedScale, timeScales} from "./calculations";
+
+    const getEarliestAppointmentDate = () => {
+        if (appointments.length === 0) return new Date();
+        const earliestTimestamp = Math.min(...appointments.map(appointment => appointment.startTime));
+        return unixTimestampToDate(earliestTimestamp);
     };
 
-    const currentDate = new Date();
+    const baseDate = getEarliestAppointmentDate();
+    const selectedScale = getSelectedScale();
 
     const getDates = (days: number) => {
         return Array.from({length: days}, (_, index) => {
-            const date = new Date(currentDate);
-            date.setDate(currentDate.getDate() + index - Math.floor(days / 2));
+            const date = new Date(baseDate);
+            date.setDate(baseDate.getDate() + index);
             return date;
         });
     };
-
-    const selectedScale = getSelectedScale();
 
     const dateRange = getDates(amountOfDays);
 
@@ -36,6 +39,7 @@
 </script>
 
 <div>
+    <!--    TODO add halfhour, and maybe week implementation somewhere here-->
     {#if selectedScale === timeScales.hour}
         <div class="day-header">
             {#each dateRange as date}
@@ -46,36 +50,38 @@
         </div>
         <div class="hour-header">
             {#each Array(amountOfDays) as _, index}
-                {#each Array(24) as _, index}
+                {#each Array(24) as _, hourIndex}
                     <div class="header-cell" style="width: {calculateTimeline(selectedScale) - 2}px;">
-                        {index.toString().padStart(2, "0")}:00
+                        {hourIndex.toString().padStart(2, "0")}:00
                     </div>
                 {/each}
             {/each}
         </div>
+
     {:else if selectedScale === timeScales.day}
         <div class="week-header">
             {#each dateRange as date}
-                <div class="header-cell {isWeekend(date) ? 'weekend' : ''}" style="min-width: {120}px;">
+                <div class="header-cell {isWeekend(date) ? 'weekend' : ''}"
+                     style="min-width: {calculateTimeline(selectedScale) / 24 * 7 - 2}px;">
                     Week {getWeekNumber(date)}
                 </div>
             {/each}
         </div>
         <div class="day-header">
             {#each dateRange as date}
-                <div class="header-cell" style="width: {selectedScale * 4 - 2}px;">
+                <div class="header-cell" style="width: {calculateTimeline(selectedScale) / 12 - 2}px;">
                     {date.toLocaleDateString()}
                 </div>
             {/each}
         </div>
-    {:else if selectedScale === timeScales.week}
-        <div class="week-header">
-            {#each dateRange as date}
-                <div class="header-cell {isWeekend(date) ? 'weekend' : ''}" style="min-width: {120}px;">
-                    {date.toLocaleDateString()}
-                </div>
-            {/each}
-        </div>
+        <!--{:else if selectedScale === timeScales.week}-->
+        <!--    <div class="week-header">-->
+        <!--        {#each dateRange as date}-->
+        <!--            <div class="header-cell {isWeekend(date) ? 'weekend' : ''}" style="min-width: {120}px;">-->
+        <!--                {date.toLocaleDateString()}-->
+        <!--            </div>-->
+        <!--        {/each}-->
+        <!--    </div>-->
     {/if}
 </div>
 

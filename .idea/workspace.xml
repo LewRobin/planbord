@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="First steps to calculating appointments within the grid">
+    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="Added Timeline calculations">
       <change afterPath="$PROJECT_DIR$/src/components/grid/AfsprakenOverlay.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
@@ -12,7 +12,6 @@
       <change beforePath="$PROJECT_DIR$/src/components/grid/Row.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Row.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/grid/calculations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/calculations.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/AppointmentManager.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/AppointmentManager.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742486603671</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Added Timeline calculations">
+      <option name="closed" value="true" />
+      <created>1742550962935</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1742550962935</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,7 +271,8 @@
     <MESSAGE value="Basic version from POC" />
     <MESSAGE value="SCRUM-58-Feature-Switching-timescales" />
     <MESSAGE value="First steps to calculating appointments within the grid" />
-    <option name="LAST_COMMIT_MESSAGE" value="First steps to calculating appointments within the grid" />
+    <MESSAGE value="Added Timeline calculations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Timeline calculations" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

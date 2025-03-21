@@ -3,7 +3,7 @@
     import Appointments from '../src/components/grid/Appointments.svelte';
 
     let assets = ["Asset 1", "Asset 2", "Asset 3"];
-    let amountOfDays = 2;
+    let amountOfDays = 20;
     let viewMode = 'hours';
 
     let appointments = [
@@ -19,16 +19,13 @@
         console.log('Afspraken toegevoegd:', event.detail);
     }
 
-    function toggleViewMode() {
-        viewMode = viewMode === 'hours' ? 'days' : 'hours';
-    }
 </script>
 
 <main>
     <!--    <h1>Afspraak Grid</h1>-->
     <!--    <button on:click={toggleViewMode}>Wissel weergave naar {viewMode === 'hours' ? 'dagen' : 'uren'}</button>-->
     <!--    <Appointments on:add={handleAddAppointment}/>-->
-    <Grid {amountOfDays} {appointments} {assets} {viewMode}/>
+    <Grid {amountOfDays} {appointments} {assets}/>
 </main>
 
 <style>

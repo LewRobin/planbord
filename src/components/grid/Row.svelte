@@ -1,23 +1,14 @@
 <script lang="ts">
     import Cell from './Cell.svelte';
-    import {calculateWidth, calculateLeft, getSelectedScale} from "./calculations";
+    import {calculateWidth, calculateLeft} from "./calculations";
     export let appointments: { asset: string; startTime: number; endTime: number; }[];
-    export let pixelsPerMinute: number = 1;
-    export let minimumTime;
-
-    const selectedScale = getSelectedScale();
-
-    const minutesPerCell = selectedScale;
 
     // some dummy appointments
     appointments = [
-        {asset: "Boot 1", startTime: 0, endTime: 0 + (4 * 15)},
-        // { asset: "Boot 2", startTime: 300, endTime: 300 + (6 * minimumTime)},
-        {asset: "Boot 3", startTime: 1742432400, endTime: 1742450400},
-        {asset: "Boot 4", startTime: 60, endTime: 60 + (1 * 15)},
-        // { asset: "Boot 4", startTime: 75, endTime: 75 + (1 * minimumTime) },
-        // { asset: "Boot 4", startTime: 90, endTime: 90 + (1 * minimumTime) },
-        // { asset: "Boot 5", startTime: 600, endTime: 600 + (400 * minimumTime) },
+        {asset: "Boot 1", startTime: 1742518800, endTime: 1742533200},
+        // { asset: "Boot 2", startTime: 1742605200, endTime: 1742619600 },
+        // { asset: "Boot 3", startTime: 1742691600, endTime: 1742706000 },
+        {asset: "Boot 4", startTime: 1742778000, endTime: 1742792400},
     ];
 </script>
 
@@ -27,13 +18,13 @@
              style="
                 left: {calculateLeft(appointment.startTime)}px;
                 width: {calculateWidth(appointment.startTime, appointment.endTime)}px;">
+            {appointment.asset}
         </div>
     {/each}
 
-    <!--    TODO add lazy loading for the cells here-->
     <div class="cells">
-        {#each Array(600 * (60 / minutesPerCell)) as _, i}
-            <Cell pixelsPerMinute={pixelsPerMinute}/>
+        {#each Array(600) as _, i}
+            <Cell pixelsPerMinute={1}/>
         {/each}
     </div>
 </div>

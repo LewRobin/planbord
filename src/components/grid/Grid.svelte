@@ -16,7 +16,7 @@
         <Timeline {amountOfDays}/>
         <div class="rows">
             {#each assets as asset}
-                <Row days={amountOfDays} appointments={appointments}/>
+                <Row appointments={appointments}/>
             {/each}
         </div>
     </div>
