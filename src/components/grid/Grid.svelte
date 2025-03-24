@@ -1,21 +1,106 @@
-<script lang="ts">
+<script>
+    import {onMount} from 'svelte';
+    import {writable} from 'svelte/store';
     import Row from './Row.svelte';
-    import Timeline from "./Timeline.svelte";
-    export let amountOfDays: number;
-    export let appointments: { asset: string; startTime: number; endTime: number; day?: number; color?: string }[];
+    import Timeline from './Timeline.svelte';
+    import LoadingIndicator from './LoadingIndicator.svelte';
+    import {getSelectedScale, timeScales, CELL_WIDTH_PX} from './calculations';
+    import {appointments} from './AppointmentData.js';
 
-    appointments = [
-        {asset: "Asset 1", startTime: 1742518800, endTime: 1742533200},
-        {asset: "Asset 1", startTime: 1742882400, endTime: 1742925600},
-        {asset: "Asset 2", startTime: 1742778000, endTime: 1742925600},
-        {asset: "Asset 2", startTime: 1742954400, endTime: 1742972400},
-        {asset: "Asset 3", startTime: 1742778000, endTime: 1742792400},
-    ];
+    export let amountOfDays;
 
     $: uniqueAssets = Array.from(new Set(appointments.map(app => app.asset).filter(Boolean)));
+
+    const totalDaysLoaded = writable(amountOfDays);
+    let rowsContainer;
+    let isLoading = false;
+    let loadingMessage = "";
+    let initialLoadDone = false;
+
+    // Calculate required initial days
+    function calculateInitialDays() {
+        if (!rowsContainer) return 30;
+
+        const containerWidth = rowsContainer.clientWidth;
+        const selectedScale = getSelectedScale();
+        const cellsPerDay = selectedScale === timeScales.hour ? 24 : 1;
+
+        return Math.ceil(containerWidth / (CELL_WIDTH_PX * cellsPerDay)) + (selectedScale === timeScales.hour ? 5 : 10);
+    }
+
+    // Fill timeline initially
+    function initialFill() {
+        if (initialLoadDone) return;
+
+        isLoading = true;
+        loadingMessage = "Planbord vullen...";
+
+        const requiredDays = calculateInitialDays();
+
+        setTimeout(() => {
+            totalDaysLoaded.update(n => Math.max(n, requiredDays));
+
+            setTimeout(() => {
+                isLoading = false;
+                loadingMessage = "";
+                initialLoadDone = true;
+            }, 800);
+        }, 300);
+    }
+
+    // Handle scroll synchronization and loading
+    function handleRowsScroll() {
+        if (!rowsContainer) return;
+
+        const scrollLeft = rowsContainer.scrollLeft;
+        const scrollWidth = rowsContainer.scrollWidth;
+        const clientWidth = rowsContainer.clientWidth;
+
+        // Sync timeline scroll
+        const timelineContainer = document.querySelector('.timeline-container');
+        if (timelineContainer) {
+            timelineContainer.scrollLeft = scrollLeft;
+        }
+
+        // Load more data when near edge
+        if (scrollLeft + clientWidth >= scrollWidth * 0.7 && !isLoading && initialLoadDone) {
+            isLoading = true;
+            loadingMessage = "Meer dagen laden...";
+
+            setTimeout(() => {
+                totalDaysLoaded.update(n => n + 7);
+
+                setTimeout(() => {
+                    isLoading = false;
+                    loadingMessage = "";
+                }, 1500);
+            }, 800);
+        }
+    }
+
+    onMount(() => {
+        if (rowsContainer) {
+            const resizeObserver = new ResizeObserver(() => {
+                handleRowsScroll();
+                if (!initialLoadDone) {
+                    initialFill();
+                }
+            });
+
+            resizeObserver.observe(rowsContainer);
+
+            setTimeout(() => {
+                initialFill();
+            }, 100);
+
+            return () => {
+                resizeObserver.disconnect();
+            };
+        }
+    });
 </script>
+
 <div>
-    hoi
     <div class="main-container">
         <div class="asset-container">
             {#each uniqueAssets as asset}
@@ -23,14 +108,21 @@
             {/each}
         </div>
         <div class="grid-container">
-            <Timeline {amountOfDays} {appointments}/>
-            <div class="rows">
+            <Timeline {amountOfDays} {appointments} {totalDaysLoaded}/>
+            <div bind:this={rowsContainer} class="rows" on:scroll={handleRowsScroll}>
                 {#each uniqueAssets as asset}
-                    <Row appointments={appointments.filter(app => app.asset === asset)}/>
+                    <Row
+                            appointments={appointments.filter(app => app.asset === asset)}
+                            totalDaysLoaded={$totalDaysLoaded}
+                    />
                 {/each}
             </div>
         </div>
     </div>
+
+    {#if isLoading}
+        <LoadingIndicator message={loadingMessage} position="bottom"/>
+    {/if}
 </div>
 
 <style>
@@ -40,7 +132,7 @@
         overflow-y: auto;
     }
     .asset-container {
-        padding: 40px;
+        padding: 60px;
         position: sticky;
         left: 0;
         background: #fff;
@@ -48,9 +140,8 @@
         display: flex;
         flex-direction: column;
     }
-
     .asset {
-        height: 60px;
+        height: 50px;
         width: max-content;
     }
     .grid-container {
@@ -58,10 +149,20 @@
         flex-direction: column;
         white-space: nowrap;
         border: 1px solid red;
-        height: 192px;
+        flex-grow: 1;
+        width: 100%;
+        overflow: hidden;
     }
     .rows {
         display: flex;
         flex-direction: column;
+        overflow-x: auto;
+        width: 100%;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .rows::-webkit-scrollbar {
+        display: none;
     }
 </style>

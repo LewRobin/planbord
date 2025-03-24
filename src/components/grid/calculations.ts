@@ -6,30 +6,48 @@ export const timeScales = {
 };
 
 let selectedScale = timeScales.day;
-const pixelsPerMinute = 1;
-const minutesPerCell = selectedScale;
-const minimumTime = 15;
+export const CELL_WIDTH_PX = 60;
+
+const TODAY = new Date();
+TODAY.setHours(0, 0, 0, 0);
 
 export function getSelectedScale() {
     return selectedScale;
 }
 
-export function setSelectedScale(scale: number) {
+export function setSelectedScale(scale) {
     selectedScale = scale;
 }
 
-const timeToMinutes = (unixTimestamp: number) => {
+export function unixTimestampToDate(unixTimestamp) {
+    return new Date(unixTimestamp * 1000);
+}
+
+const timeToMinutes = (unixTimestamp) => {
     const date = new Date(unixTimestamp * 1000);
     return date.getHours() * 60 + date.getMinutes();
 };
 
 export function calculatePixelsPerDay() {
     if (selectedScale === timeScales.day) {
-        return 120;
+        return CELL_WIDTH_PX;
+    } else if (selectedScale === timeScales.week) {
+        return CELL_WIDTH_PX / 7;
     } else {
-        return 1440 * (pixelsPerMinute / (60 / (selectedScale * 4)));
+        return 24 * CELL_WIDTH_PX;
     }
 }
+
+export function calculateTimeline(scale) {
+    if (scale === timeScales.day) {
+        return CELL_WIDTH_PX;
+    } else if (scale === timeScales.week) {
+        return CELL_WIDTH_PX * 7;
+    } else {
+        return CELL_WIDTH_PX;
+    }
+}
+
 
 export function calculateLeft(startTime: number) {
     const date = new Date(startTime * 1000);
@@ -37,19 +55,23 @@ export function calculateLeft(startTime: number) {
     baseDate.setHours(0, 0, 0, 0);
     const dayDifference = Math.floor((date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24));
     const minutes = timeToMinutes(startTime);
-    return (dayDifference * calculatePixelsPerDay()) + (minutes * pixelsPerMinute) / selectedScale * 15;
+    return (dayDifference * calculatePixelsPerDay()) + (minutes * 1) / selectedScale * 15;
 }
 
-export function calculateWidth(startTime: number, endTime: number) {
-    let startMinutes = timeToMinutes(startTime);
-    let endMinutes = timeToMinutes(endTime);
-    return Math.round(((endMinutes - startMinutes) / minutesPerCell) * minimumTime) - 2;
-}
+export function calculateWidth(startTime, endTime) {
+    const startDate = unixTimestampToDate(startTime);
+    const endDate = unixTimestampToDate(endTime);
+    const diffMs = endDate.getTime() - startDate.getTime();
 
-export function unixTimestampToDate(unixTimestamp: number): Date {
-    return new Date(unixTimestamp * 1000);
-}
-
-export function calculateTimeline(selectedScale: number) {
-    return selectedScale * 4;
+    if (selectedScale === timeScales.day) {
+        let startMinutes = timeToMinutes(startTime);
+        let endMinutes = timeToMinutes(endTime);
+        return Math.round(((endMinutes - startMinutes) / 15) * 1) - 2;
+    } else if (selectedScale === timeScales.week) {
+        const diffWeeks = Math.ceil(diffMs / (1000 * 60 * 60 * 24 * 7));
+        return diffWeeks * CELL_WIDTH_PX - 2;
+    } else {
+        const diffMinutes = diffMs / (1000 * 60);
+        return (diffMinutes / 60) * CELL_WIDTH_PX - 2;
+    }
 }

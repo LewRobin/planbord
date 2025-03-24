@@ -14,15 +14,13 @@
     }
 </script>
 <main>
-    <Grid {amountOfDays} {appointments}/>
+    <Grid {amountOfDays}/>
 </main>
 
 <style>
     main {
-        /*padding: 20px;*/
         font-family: Arial, sans-serif;
         height: 100vh;
-        overflow: hidden;
         background: #f1f2f6;
     }
 </style>
