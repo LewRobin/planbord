@@ -62,7 +62,7 @@
     {:else if selectedScale === timeScales.day}
         <div class="week-header">
             {#each dateRange as date}
-                <div class="header-cell {isWeekend(date) ? 'weekend' : ''}"
+                <div class="header-cell"
                      style="min-width: {calculateTimeline(selectedScale) / 24 * 7 - 2}px;">
                     Week {getWeekNumber(date)}
                 </div>
@@ -114,23 +114,5 @@
         text-align: center;
         border: 1px solid #ccc;
         position: relative;
-    }
-
-    .header-cell.weekend {
-        background-color: rgba(255, 0, 0, 0.2);
-    }
-
-    .header-cell.weekend::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(255, 0, 0, 0.5);
-        transform: rotate(-45deg);
-        transform-origin: center;
-        z-index: 1;
-        pointer-events: none;
     }
 </style>

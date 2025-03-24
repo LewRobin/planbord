@@ -5,7 +5,7 @@ export const timeScales = {
     week: 15 * 24 * 7
 };
 
-let selectedScale = timeScales.hour;
+let selectedScale = timeScales.day;
 const pixelsPerMinute = 1;
 const minutesPerCell = selectedScale;
 const minimumTime = 15;
@@ -14,7 +14,6 @@ export function getSelectedScale() {
     return selectedScale;
 }
 
-// For future option menu customization
 export function setSelectedScale(scale: number) {
     selectedScale = scale;
 }
@@ -22,26 +21,25 @@ export function setSelectedScale(scale: number) {
 const timeToMinutes = (unixTimestamp: number) => {
     const date = new Date(unixTimestamp * 1000);
     return date.getHours() * 60 + date.getMinutes();
-}
+};
 
 export function calculatePixelsPerDay() {
-    return 1440 * (pixelsPerMinute / (60 / (selectedScale * 4)));
+    if (selectedScale === timeScales.day) {
+        return 120;
+    } else {
+        return 1440 * (pixelsPerMinute / (60 / (selectedScale * 4)));
+    }
 }
 
 export function calculateLeft(startTime: number) {
     const date = new Date(startTime * 1000);
     const baseDate = new Date();
     baseDate.setHours(0, 0, 0, 0);
-
     const dayDifference = Math.floor((date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24));
-
     const minutes = timeToMinutes(startTime);
-
     return (dayDifference * calculatePixelsPerDay()) + (minutes * pixelsPerMinute) / selectedScale * 15;
 }
 
-
-// Calculates how much time the items is supposed to be -2 is applied due to grid borders
 export function calculateWidth(startTime: number, endTime: number) {
     let startMinutes = timeToMinutes(startTime);
     let endMinutes = timeToMinutes(endTime);
