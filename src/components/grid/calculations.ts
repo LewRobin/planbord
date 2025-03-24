@@ -25,8 +25,7 @@ const timeToMinutes = (unixTimestamp: number) => {
 }
 
 export function calculatePixelsPerDay() {
-    const minutesPerDay = 1440;
-    return minutesPerDay * (pixelsPerMinute / (60 / (selectedScale * 4)));
+    return 1440 * (pixelsPerMinute / (60 / (selectedScale * 4)));
 }
 
 export function calculateLeft(startTime: number) {
@@ -38,7 +37,7 @@ export function calculateLeft(startTime: number) {
 
     const minutes = timeToMinutes(startTime);
 
-    return (dayDifference * calculatePixelsPerDay()) + (minutes * pixelsPerMinute);
+    return (dayDifference * calculatePixelsPerDay()) + (minutes * pixelsPerMinute) / selectedScale * 15;
 }
 
 

@@ -7,6 +7,7 @@
 
     import {calculateTimeline, getSelectedScale, timeScales} from "./calculations";
 
+    // TODO when adding dynamic scrolling should update this every so often to keep calculations low
     const getEarliestAppointmentDate = () => {
         if (appointments.length === 0) return new Date();
         const earliestTimestamp = Math.min(...appointments.map(appointment => appointment.startTime));

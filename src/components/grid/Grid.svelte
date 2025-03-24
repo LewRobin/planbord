@@ -13,7 +13,7 @@
         <h2>Asset 3</h2>
     </div>
     <div class="grid-container">
-        <Timeline {amountOfDays}/>
+        <Timeline {amountOfDays} {appointments}/>
         <div class="rows">
             {#each assets as asset}
                 <Row appointments={appointments}/>

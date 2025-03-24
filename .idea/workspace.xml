@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="Added Timeline calculations">
+    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="Added Unix timestamp support">
       <change afterPath="$PROJECT_DIR$/src/components/grid/AfsprakenOverlay.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/grid/Grid.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Grid.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid/Row.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Row.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/grid/calculations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/calculations.ts" afterDir="false" />
     </list>
@@ -29,6 +28,8 @@
         <option value="Timeline" />
         <option value="AfsprakenOverlay" />
         <option value="TypeScript File" />
+        <option value="LazyGrid" />
+        <option value="LazyRow" />
       </list>
     </option>
   </component>
@@ -40,6 +41,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LewRobin&quot;
+  }
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -69,6 +76,14 @@
       </RecentBranches>
     </option>
   </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="e5e7a735-f1f5-4121-8d47-a08dc8ec082b" />
+        <option name="url" value="https://github.com/LewRobin/planbord" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -86,24 +101,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.index.js.executor": "Debug",
-    "Node.js.server.js.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "SCRUM-56-Make-dynamic-resizable-grid",
-    "last_opened_file_path": "D:/template-master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "D:\\Stage AddNoise\\Planbord2\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.index.js.executor&quot;: &quot;Debug&quot;,
+    &quot;Node.js.server.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;SCRUM-56-Make-dynamic-resizable-grid&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/template-master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Stage AddNoise\\Planbord2\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -116,6 +131,8 @@
       <workItem from="1741771239351" duration="1409000" />
       <workItem from="1741772687950" duration="5699000" />
       <workItem from="1741867239798" duration="5472000" />
+      <workItem from="1742561839718" duration="6417000" />
+      <workItem from="1742803827974" duration="2859000" />
     </task>
     <task id="LOCAL-00001" summary="Basic structure including docker compose.yml">
       <option name="closed" value="true" />
@@ -237,7 +254,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742550962935</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Added Unix timestamp support">
+      <option name="closed" value="true" />
+      <created>1742560319308</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1742560319308</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,7 +297,8 @@
     <MESSAGE value="SCRUM-58-Feature-Switching-timescales" />
     <MESSAGE value="First steps to calculating appointments within the grid" />
     <MESSAGE value="Added Timeline calculations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Timeline calculations" />
+    <MESSAGE value="Added Unix timestamp support" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Unix timestamp support" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
