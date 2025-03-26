@@ -4,10 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="Hook config testing">
+    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/Button.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/timeline/TimeScaleSwitcher.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/timeline/Timeline.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/timeline/TimelineHeader.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/timeline/TodayButton.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/TimelineController.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/dateGenerator.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/week-utils.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nginx.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/global.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rollup.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/rollup.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AppointmentForm.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/Appointments.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/appointment/Appointments.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/Grid.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Grid.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/Row.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Row.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/calculations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/calculations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/grid/cell.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/cell.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/Controller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Appointment.js" beforeDir="false" />
+    </list>
+    <list id="05b60de1-7687-4e96-a4d2-b5523bdc3762" name="Compartmentalize" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/grid/LoadingIndicator.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,16 +39,40 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Dockerfile" />
         <option value="Geeting" />
+        <option value="Colomn" />
+        <option value="Appointments" />
+        <option value="Timeline" />
+        <option value="AfsprakenOverlay" />
+        <option value="LazyGrid" />
+        <option value="LazyRow" />
+        <option value="tsconfig.json" />
+        <option value="TimelineHeader" />
         <option value="TypeScript File" />
+        <option value="LoadingIndicator" />
+        <option value="JavaScript File" />
+        <option value="TodayButton" />
+        <option value="TimelineController" />
+        <option value="TimeScaleSwitcher" />
+        <option value="Button" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="SCRUM-59-Adding-appointments" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LewRobin&quot;
+  }
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -36,8 +82,16 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="SCRUM-58-Feature-Switching-timescales" />
+                    <option name="lastUsedInstant" value="1742460634" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="dev" />
+                    <option name="lastUsedInstant" value="1741862530" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1741783463" />
+                    <option name="lastUsedInstant" value="1741862493" />
                   </RecentBranch>
                 </list>
               </option>
@@ -48,8 +102,19 @@
       </RecentBranches>
     </option>
   </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="e5e7a735-f1f5-4121-8d47-a08dc8ec082b" />
+        <option name="url" value="https://github.com/LewRobin/planbord" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
@@ -62,23 +127,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.server.js.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/Stage AddNoise/Planbord",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.3\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.index.js.executor&quot;: &quot;Debug&quot;,
+    &quot;Node.js.server.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;SCRUM-56-Make-dynamic-resizable-grid&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/template-master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Stage AddNoise\\Planbord2\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Stage AddNoise\Planbord2\src" />
+      <recent name="D:\Stage AddNoise\Planbord2\src\components\appointment" />
+      <recent name="D:\Stage AddNoise\Planbord2\src\models" />
+      <recent name="D:\Stage AddNoise\Planbord2\src\components\utils" />
+      <recent name="D:\Stage AddNoise\Planbord2\src\components\timeline" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -90,6 +165,10 @@
       <workItem from="1741262954189" duration="10406000" />
       <workItem from="1741771239351" duration="1409000" />
       <workItem from="1741772687950" duration="5699000" />
+      <workItem from="1741867239798" duration="5472000" />
+      <workItem from="1742561839718" duration="6417000" />
+      <workItem from="1742803827974" duration="2859000" />
+      <workItem from="1742976541180" duration="7682000" />
     </task>
     <task id="LOCAL-00001" summary="Basic structure including docker compose.yml">
       <option name="closed" value="true" />
@@ -147,11 +226,94 @@
       <option name="project" value="LOCAL" />
       <updated>1741788958392</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Hook config testing">
+      <option name="closed" value="true" />
+      <created>1741789032761</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1741789032761</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Hook config testing">
+      <option name="closed" value="true" />
+      <created>1741789113170</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1741789113170</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Hook config testing">
+      <option name="closed" value="true" />
+      <created>1741789705511</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741789705511</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Fixed node version">
+      <option name="closed" value="true" />
+      <created>1741789799885</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1741789799885</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added new version of grid without Gantt library">
+      <option name="closed" value="true" />
+      <created>1742310680381</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1742310680418</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Basic version from POC">
+      <option name="closed" value="true" />
+      <created>1742460361118</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1742460361118</updated>
+    </task>
+    <task id="LOCAL-00014" summary="First steps to calculating appointments within the grid">
+      <option name="closed" value="true" />
+      <created>1742486603655</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1742486603671</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added Timeline calculations">
+      <option name="closed" value="true" />
+      <created>1742550962935</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1742550962935</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added Unix timestamp support">
+      <option name="closed" value="true" />
+      <created>1742560319308</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1742560319308</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CODE_SMELLS_PROFILE" value="Project Default" />
@@ -160,8 +322,26 @@
     <MESSAGE value="Basic structure 2" />
     <MESSAGE value="Disabled README.md" />
     <MESSAGE value="Hook config testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hook config testing" />
+    <MESSAGE value="Fixed node version" />
+    <MESSAGE value="Added new version of grid without Gantt library" />
+    <MESSAGE value="Basic version from POC" />
+    <MESSAGE value="SCRUM-58-Feature-Switching-timescales" />
+    <MESSAGE value="First steps to calculating appointments within the grid" />
+    <MESSAGE value="Added Timeline calculations" />
+    <MESSAGE value="Added Unix timestamp support" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Unix timestamp support" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/node_modules/sirv-cli/index.js</url>
+          <line>86</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

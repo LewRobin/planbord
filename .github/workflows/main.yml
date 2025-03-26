@@ -1,31 +1,23 @@
-name: CI
+name: Node.js CI
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [ main, dev ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    strategy:
+      matrix:
+        node-version: [ 22.x ]
 
-      - name: Set up Node.js
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: '22.14.1'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run linter
-        run: npm run lint
-
-      - name: Run tests
-        run: npm test
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
