@@ -1,6 +1,12 @@
 <script lang="ts">
     import Cell from './Cell.svelte';
-    import {calculateWidth, calculateLeft, timeScales, calculateTimeline, getSelectedScale} from "./calculations";
+    import {
+        calculateWidth,
+        calculateLeft,
+        timeScales,
+        calculateTimeline,
+        getSelectedScale
+    } from "../../utils/calculations";
     import {onMount, afterUpdate} from 'svelte';
     import {fade, fly} from 'svelte/transition';
 
@@ -134,7 +140,7 @@
     }
 
     .new-cell {
-        background-color: rgba(173, 216, 230, 0.2); /* Lichtblauw voor nieuwe cellen */
+        background-color: rgba(173, 216, 230, 0.2);
     }
     .row {
         position: relative;

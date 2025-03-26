@@ -2,10 +2,10 @@
     import {onMount} from 'svelte';
     import {writable} from 'svelte/store';
     import Row from './Row.svelte';
-    import Timeline from './Timeline.svelte';
+    import Timeline from '../timeline/Timeline.svelte';
     import LoadingIndicator from './LoadingIndicator.svelte';
-    import {getSelectedScale, timeScales, CELL_WIDTH_PX} from './calculations';
-    import {appointments} from './AppointmentData.js';
+    import {getSelectedScale, timeScales, cellWidthPx} from '../../utils/calculations.js';
+    import {appointments} from '../../models/AppointmentData.js';
 
     export let amountOfDays;
 
@@ -17,7 +17,7 @@
     let loadingMessage = "";
     let initialLoadDone = false;
 
-    // Calculate required initial days
+    // Calculate required initial days, can be increased if needed
     function calculateInitialDays() {
         if (!rowsContainer) return 30;
 
@@ -25,7 +25,7 @@
         const selectedScale = getSelectedScale();
         const cellsPerDay = selectedScale === timeScales.hour ? 24 : 1;
 
-        return Math.ceil(containerWidth / (CELL_WIDTH_PX * cellsPerDay)) + (selectedScale === timeScales.hour ? 5 : 10);
+        return Math.ceil(containerWidth / (cellWidthPx * cellsPerDay)) + (selectedScale === timeScales.hour ? 5 : 10);
     }
 
     // Fill timeline initially
@@ -48,7 +48,6 @@
         }, 300);
     }
 
-    // Handle scroll synchronization and loading
     function handleRowsScroll() {
         if (!rowsContainer) return;
 
@@ -56,7 +55,7 @@
         const scrollWidth = rowsContainer.scrollWidth;
         const clientWidth = rowsContainer.clientWidth;
 
-        // Sync timeline scroll
+        // Sync timeline scroll which does lag when traveling weeks very fast
         const timelineContainer = document.querySelector('.timeline-container');
         if (timelineContainer) {
             timelineContainer.scrollLeft = scrollLeft;

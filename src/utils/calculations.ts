@@ -5,8 +5,8 @@ export const timeScales = {
     week: 15 * 24 * 7
 };
 
-let selectedScale = timeScales.day;
-export const CELL_WIDTH_PX = 60;
+let selectedScale = timeScales.hour;
+export const cellWidthPx = 60;
 
 const TODAY = new Date();
 TODAY.setHours(0, 0, 0, 0);
@@ -30,21 +30,21 @@ const timeToMinutes = (unixTimestamp) => {
 
 export function calculatePixelsPerDay() {
     if (selectedScale === timeScales.day) {
-        return CELL_WIDTH_PX;
+        return cellWidthPx;
     } else if (selectedScale === timeScales.week) {
-        return CELL_WIDTH_PX / 7;
+        return cellWidthPx / 7;
     } else {
-        return 24 * CELL_WIDTH_PX;
+        return 24 * cellWidthPx;
     }
 }
 
 export function calculateTimeline(scale) {
     if (scale === timeScales.day) {
-        return CELL_WIDTH_PX;
+        return cellWidthPx;
     } else if (scale === timeScales.week) {
-        return CELL_WIDTH_PX * 7;
+        return cellWidthPx * 7;
     } else {
-        return CELL_WIDTH_PX;
+        return cellWidthPx;
     }
 }
 
@@ -69,9 +69,9 @@ export function calculateWidth(startTime, endTime) {
         return Math.round(((endMinutes - startMinutes) / 15) * 1) - 2;
     } else if (selectedScale === timeScales.week) {
         const diffWeeks = Math.ceil(diffMs / (1000 * 60 * 60 * 24 * 7));
-        return diffWeeks * CELL_WIDTH_PX - 2;
+        return diffWeeks * cellWidthPx - 2;
     } else {
         const diffMinutes = diffMs / (1000 * 60);
-        return (diffMinutes / 60) * CELL_WIDTH_PX - 2;
+        return (diffMinutes / 60) * cellWidthPx - 2;
     }
 }

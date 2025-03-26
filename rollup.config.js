@@ -39,14 +39,19 @@ export default {
         name: 'app',
         file: 'public/build/bundle.js',
         globals: {
-            '@sveltejs/svelte-virtual-list': 'VirtualList' // Voeg deze regel toe
+            '@sveltejs/svelte-virtual-list': 'VirtualList'
         }
     },
     plugins: [
         svelte({
-            preprocess: sveltePreprocess({sourceMap: !production}),
+            preprocess: sveltePreprocess({
+                sourceMap: !production,
+                // Voeg juiste TypeScript configuratie toe
+                typescript: {
+                    tsconfigFile: './tsconfig.json'
+                }
+            }),
             compilerOptions: {
-                // enable run-time checks when not in production
                 dev: !production
             }
         }),
@@ -55,12 +60,22 @@ export default {
         resolve({
             browser: true,
             dedupe: ['svelte'],
-            exportConditions: ['svelte']
+            exportConditions: ['svelte'],
+            extensions: ['.mjs', '.js', '.ts', '.json', '.svelte']  // Voeg .ts toe
         }),
         commonjs(),
         typescript({
             sourceMap: !production,
-            inlineSources: !production
+            inlineSources: !production,
+            tsconfig: './tsconfig.json',
+            compilerOptions: {
+                target: "es2018",
+                module: "esnext",
+                moduleResolution: "node",
+                importsNotUsedAsValues: "remove",
+                isolatedModules: true,
+                esModuleInterop: true
+            }
         }),
 
         !production && serve(),
@@ -68,7 +83,7 @@ export default {
         production && terser()
     ],
     external: [
-        '@sveltejs/svelte-virtual-list' // Markeer als extern
+        '@sveltejs/svelte-virtual-list'
     ],
     watch: {
         clearScreen: false
