@@ -5,11 +5,12 @@
     import Timeline from '../timeline/Timeline.svelte';
     import LoadingIndicator from './LoadingIndicator.svelte';
     import {getSelectedScale, timeScales, cellWidthPx} from '../../utils/calculations.js';
-    import {appointments} from '../../models/AppointmentData.js';
+    import {appointments, loadAppointments} from '../appointment/AppointmentData';
+    import AppointmentButton from "../appointment/AppointmentButton.svelte";
 
     export let amountOfDays;
 
-    $: uniqueAssets = Array.from(new Set(appointments.map(app => app.asset).filter(Boolean)));
+    $: uniqueAssets = Array.from(new Set($appointments.map(app => app.asset).filter(Boolean)));
 
     const totalDaysLoaded = writable(amountOfDays);
     let rowsContainer;
@@ -77,7 +78,9 @@
         }
     }
 
-    onMount(() => {
+    onMount(async () => {
+        await loadAppointments();
+
         if (rowsContainer) {
             const resizeObserver = new ResizeObserver(() => {
                 handleRowsScroll();
@@ -105,13 +108,14 @@
             {#each uniqueAssets as asset}
                 <div class="asset">{asset}</div>
             {/each}
+            <AppointmentButton/>
         </div>
         <div class="grid-container">
-            <Timeline {amountOfDays} {appointments} {totalDaysLoaded}/>
+            <Timeline {amountOfDays} appointments={$appointments} {totalDaysLoaded}/>
             <div bind:this={rowsContainer} class="rows" on:scroll={handleRowsScroll}>
                 {#each uniqueAssets as asset}
                     <Row
-                            appointments={appointments.filter(app => app.asset === asset)}
+                            appointments={$appointments.filter(app => app.asset === asset)}
                             totalDaysLoaded={$totalDaysLoaded}
                     />
                 {/each}
