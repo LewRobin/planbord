@@ -1,6 +1,6 @@
 <script>
     import {onMount} from 'svelte';
-    import {timeScales, getSelectedScale, setSelectedScale} from '../../utils/calculations';
+    import {timeScales, getSelectedScale, setSelectedScale} from '@/utils/calculations.js';
     import {writable} from 'svelte/store';
     import Button from "../Button.svelte";
 

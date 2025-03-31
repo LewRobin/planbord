@@ -1,7 +1,7 @@
 import type { Appointment } from './AppointmentData';
-import { AppointmentService } from '../../services/AppointmentService';
+import { AppointmentService } from '@/services/AppointmentService';
 import { loadAppointments } from './AppointmentData';
-import { calculateTimestampFromPosition, calculateEndTimeFromWidth } from '../../utils/calculations';
+import { calculateTimestampFromPosition, calculateEndTimeFromWidth } from '@/utils/calculations';
 
 export async function deleteAppointment(appointment: Appointment): Promise<boolean> {
     try {

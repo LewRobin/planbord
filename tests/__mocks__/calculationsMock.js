@@ -77,7 +77,7 @@ export function calculateWidth(startTime, endTime) {
     if (selectedScale === timeScales.day) {
         let startMinutes = timeToMinutes(startTime);
         let endMinutes = timeToMinutes(endTime);
-        return Math.round(((endMinutes - startMinutes) / 15) * 1) - 2;
+        return Math.round((endMinutes - startMinutes) / 15) - 2;
     } else if (selectedScale === timeScales.week) {
         const diffDays = diffMs / (1000 * 60 * 60 * 24);
         return (diffDays / 7) * cellWidthPx - 2;

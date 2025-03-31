@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    import { getSelectedScale, timeScales } from '../../utils/calculations';
+    import { getSelectedScale, timeScales } from '@/utils/calculations';
 
     export let asset: string;
     export let cellIndex: number;

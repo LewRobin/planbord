@@ -8,7 +8,7 @@
         calculateLeft,
         timeScales,
         getSelectedScale
-    } from "../../utils/calculations";
+    } from "@/utils/calculations";
     import {onMount, afterUpdate} from 'svelte';
     import {fly} from 'svelte/transition';
     import type { Appointment } from '../appointment/AppointmentData';

@@ -1,12 +1,12 @@
 <script lang="ts">
     import {onMount, tick, afterUpdate} from 'svelte';
-    import {writable, type Writable, get} from 'svelte/store';
-    import {TimelineController} from '../../controllers/TimelineController';
+    import {type Writable} from 'svelte/store';
+    import {TimelineController} from '@/controllers/TimelineController';
     import TimelineHeader from './TimelineHeader.svelte';
     import LoadingIndicator from '../grid/LoadingIndicator.svelte';
     import TodayButton from "./TodayButton.svelte";
     import TimeScaleSwitcher from "./TimeScaleSwitcher.svelte";
-    import {timeScales, getSelectedScale} from '../../utils/calculations';
+    import {timeScales, getSelectedScale} from '@/utils/calculations';
 
     export let totalDaysLoaded: Writable<number>;
     export let appointments = [];

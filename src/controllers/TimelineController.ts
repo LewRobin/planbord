@@ -1,9 +1,9 @@
 // @ts-ignore
 import {writable, get, type Writable} from 'svelte/store';
-import type {VisibleRange, Week} from '../utils/types';
-import {generateDates} from '../utils/dateGenerator';
-import {getWeekLabel, isFirstDayOfWeek} from '../utils/week-utils';
-import {timeScales, cellWidthPx, getSelectedScale} from '../utils/calculations';
+import type {VisibleRange, Week} from '@/utils/types';
+import {generateDates} from '@/utils/dateGenerator';
+import {getWeekLabel, isFirstDayOfWeek} from '@/utils/week-utils';
+import {timeScales, cellWidthPx, getSelectedScale} from '@/utils/calculations';
 
 export class TimelineController {
     public isLoading = false;

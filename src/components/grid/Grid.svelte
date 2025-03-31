@@ -4,7 +4,7 @@
     import Row from './Row.svelte';
     import Timeline from '../timeline/Timeline.svelte';
     import LoadingIndicator from './LoadingIndicator.svelte';
-    import {getSelectedScale, timeScales, cellWidthPx} from '../../utils/calculations.js';
+    import {getSelectedScale, timeScales, cellWidthPx} from '@/utils/calculations.js';
     import {appointments, loadAppointments} from '../appointment/AppointmentData';
     import AppointmentButton from "../appointment/AppointmentButton.svelte";
 

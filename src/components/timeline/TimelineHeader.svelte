@@ -1,8 +1,8 @@
 <script lang="ts">
     import {fly} from 'svelte/transition';
     import {onMount, afterUpdate} from 'svelte';
-    import {cellWidthPx} from '../../utils/calculations';
-    import type {Week} from '../../utils/types';
+    import {cellWidthPx} from '@/utils/calculations';
+    import type {Week} from '@/utils/types';
 
     export let dateRange: Date[] = [];
     export let visibleDateRange: Date[] = [];

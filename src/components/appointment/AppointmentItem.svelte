@@ -1,8 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher, onMount } from 'svelte';
     import type { Appointment } from './AppointmentData';
-    import { getSelectedScale, cellWidthPx, formatTime, formatDate } from '../../utils/calculations';
-    import { DragDropService, type DragState, type ResizeState } from '../../utils/DragDropService';
+    import { getSelectedScale, cellWidthPx, formatTime, formatDate } from '@/utils/calculations';
+    import { DragDropService, type DragState, type ResizeState } from '@/utils/DragDropService';
     import { deleteAppointment, savePositionChange, saveResizeChange } from './AppointmentActions';
 
     export let appointment: Appointment;
