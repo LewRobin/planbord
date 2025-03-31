@@ -111,7 +111,7 @@
             <AppointmentButton/>
         </div>
         <div class="grid-container">
-            <Timeline {amountOfDays} appointments={$appointments} {totalDaysLoaded}/>
+            <Timeline {totalDaysLoaded}/>
             <div bind:this={rowsContainer} class="rows" on:scroll={handleRowsScroll}>
                 {#each uniqueAssets as asset}
                     <Row

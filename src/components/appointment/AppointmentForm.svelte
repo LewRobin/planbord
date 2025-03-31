@@ -2,7 +2,8 @@
     import { createEventDispatcher } from 'svelte';
     import Button from '../Button.svelte';
     import { AppointmentService } from '../../services/AppointmentService';
-    import type { Appointment } from '../../models/AppointmentData';
+    import { appointments, loadAppointments } from './AppointmentData';
+    import type { Appointment } from './AppointmentData';
 
     export let show = false;
     export let editAppointment: Partial<Appointment> | null = null;
@@ -21,21 +22,6 @@
 
     $: {
         if (editAppointment) {
-            if (editAppointment.asset) asset = editAppointment.asset;
-            if (editAppointment.title) title = editAppointment.title;
-            if (editAppointment.description) description = editAppointment.description;
-
-            if (editAppointment.startTime) {
-                const startDateTime = new Date(editAppointment.startTime * 1000);
-                startDate = startDateTime.toISOString().split('T')[0];
-                startTime = startDateTime.toTimeString().split(' ')[0].substring(0, 5);
-            }
-
-            if (editAppointment.endTime) {
-                const endDateTime = new Date(editAppointment.endTime * 1000);
-                endDate = endDateTime.toISOString().split('T')[0];
-                endTime = endDateTime.toTimeString().split(' ')[0].substring(0, 5);
-            }
         }
     }
 
@@ -67,7 +53,6 @@
                 isLoading = false;
                 return;
             }
-
             const startTimestamp = await AppointmentService.convertToTimestamp(startDate, startTime);
             const endTimestamp = await AppointmentService.convertToTimestamp(endDate, endTime);
 
@@ -76,7 +61,6 @@
                 isLoading = false;
                 return;
             }
-
             const appointmentData = {
                 asset,
                 title,
@@ -89,9 +73,14 @@
                 await AppointmentService.updateAppointment(editAppointment._id, appointmentData);
                 dispatch('updated');
             } else {
-                await AppointmentService.createAppointment(appointmentData);
-                dispatch('created');
+                const newAppointment = await AppointmentService.createAppointment(appointmentData);
+
+                appointments.update(current => [...current, newAppointment]);
+
+                dispatch('created', newAppointment);
             }
+
+            await loadAppointments();
 
             closeModal();
         } catch (error) {

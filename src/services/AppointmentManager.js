@@ -6,7 +6,6 @@ class AppointmentManager {
     }
 
     addAppointment(appointment) {
-        console.log(appointment);
         return this.validator.addAppointment(appointment);
     }
 
