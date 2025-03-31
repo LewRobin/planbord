@@ -4,33 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Button.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/timeline/TimeScaleSwitcher.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/timeline/Timeline.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/timeline/TimelineHeader.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/timeline/TodayButton.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/TimelineController.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/dateGenerator.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/week-utils.ts" afterDir="false" />
+    <list default="true" id="d76aa26d-5cc8-487a-84e5-f81f3020012e" name="Changes" comment="Fully working Dynamic grid + some hardcoded test data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nginx.conf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/global.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rollup.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/rollup.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AppointmentForm.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid/Appointments.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/appointment/Appointments.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid/Grid.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Grid.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid/Row.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/grid/Row.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid/Timeline.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid/calculations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/calculations.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/grid/cell.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/cell.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/Controller.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Appointment.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/calculations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/calculations.ts" afterDir="false" />
     </list>
-    <list id="05b60de1-7687-4e96-a4d2-b5523bdc3762" name="Compartmentalize" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/grid/LoadingIndicator.svelte" afterDir="false" />
-    </list>
+    <list id="05b60de1-7687-4e96-a4d2-b5523bdc3762" name="Compartmentalize" comment="Added LoadingIndicator" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +43,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="SCRUM-59-Adding-appointments" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -82,16 +63,20 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="SCRUM-58-Feature-Switching-timescales" />
-                    <option name="lastUsedInstant" value="1742460634" />
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1742995726" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="dev" />
-                    <option name="lastUsedInstant" value="1741862530" />
+                    <option name="lastUsedInstant" value="1742995566" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1741862493" />
+                    <option name="branchName" value="SCRUM-56-Make-dynamic-resizable-grid" />
+                    <option name="lastUsedInstant" value="1742995544" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="SCRUM-58-Feature-Switching-timescales" />
+                    <option name="lastUsedInstant" value="1742460634" />
                   </RecentBranch>
                 </list>
               </option>
@@ -102,14 +87,12 @@
       </RecentBranches>
     </option>
   </component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="e5e7a735-f1f5-4121-8d47-a08dc8ec082b" />
-        <option name="url" value="https://github.com/LewRobin/planbord" />
-      </UrlAndAccount>
-    </option>
-  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LewRobin/planbord&quot;,
+    &quot;accountId&quot;: &quot;e5e7a735-f1f5-4121-8d47-a08dc8ec082b&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -127,32 +110,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.index.js.executor&quot;: &quot;Debug&quot;,
-    &quot;Node.js.server.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;SCRUM-56-Make-dynamic-resizable-grid&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/template-master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Stage AddNoise\\Planbord2\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.index.js.executor": "Debug",
+    "Node.js.server.js.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "SCRUM-72-Setup-backend",
+    "last_opened_file_path": "D:/template-master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "D:\\Stage AddNoise\\Planbord2\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mongo"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Stage AddNoise\Planbord2\frontend" />
       <recent name="D:\Stage AddNoise\Planbord2\src" />
       <recent name="D:\Stage AddNoise\Planbord2\src\components\appointment" />
       <recent name="D:\Stage AddNoise\Planbord2\src\models" />
       <recent name="D:\Stage AddNoise\Planbord2\src\components\utils" />
-      <recent name="D:\Stage AddNoise\Planbord2\src\components\timeline" />
     </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -168,7 +164,10 @@
       <workItem from="1741867239798" duration="5472000" />
       <workItem from="1742561839718" duration="6417000" />
       <workItem from="1742803827974" duration="2859000" />
-      <workItem from="1742976541180" duration="7682000" />
+      <workItem from="1742976541180" duration="7953000" />
+      <workItem from="1742986211796" duration="6380000" />
+      <workItem from="1742996450745" duration="1337000" />
+      <workItem from="1742998591551" duration="10173000" />
     </task>
     <task id="LOCAL-00001" summary="Basic structure including docker compose.yml">
       <option name="closed" value="true" />
@@ -298,7 +297,23 @@
       <option name="project" value="LOCAL" />
       <updated>1742560319308</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Fully working Dynamic grid + some hardcoded test data">
+      <option name="closed" value="true" />
+      <created>1742985970048</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1742985970048</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Added LoadingIndicator">
+      <option name="closed" value="true" />
+      <created>1742985999158</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1742985999158</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -329,19 +344,10 @@
     <MESSAGE value="First steps to calculating appointments within the grid" />
     <MESSAGE value="Added Timeline calculations" />
     <MESSAGE value="Added Unix timestamp support" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Unix timestamp support" />
+    <MESSAGE value="Fully working Dynamic grid + some hardcoded test data" />
+    <MESSAGE value="Added LoadingIndicator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added LoadingIndicator" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/node_modules/sirv-cli/index.js</url>
-          <line>86</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

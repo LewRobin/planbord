@@ -46,7 +46,6 @@ export default {
         svelte({
             preprocess: sveltePreprocess({
                 sourceMap: !production,
-                // Voeg juiste TypeScript configuratie toe
                 typescript: {
                     tsconfigFile: './tsconfig.json'
                 }
@@ -61,7 +60,7 @@ export default {
             browser: true,
             dedupe: ['svelte'],
             exportConditions: ['svelte'],
-            extensions: ['.mjs', '.js', '.ts', '.json', '.svelte']  // Voeg .ts toe
+            extensions: ['.mjs', '.js', '.ts', '.json', '.svelte']
         }),
         commonjs(),
         typescript({

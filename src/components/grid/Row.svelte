@@ -1,16 +1,19 @@
 <script lang="ts">
     import Cell from './Cell.svelte';
+    import AppointmentItem from '../appointment/AppointmentItem.svelte';
+    import CellClickHandler from '../appointment/CellClickHandler.svelte';
+    import AppointmentForm from '../appointment/AppointmentForm.svelte';
     import {
         calculateWidth,
         calculateLeft,
         timeScales,
-        calculateTimeline,
         getSelectedScale
-    } from "../../utils/calculations";
+    } from "@/utils/calculations";
     import {onMount, afterUpdate} from 'svelte';
-    import {fade, fly} from 'svelte/transition';
+    import {fly} from 'svelte/transition';
+    import type { Appointment } from '../appointment/AppointmentData';
 
-    export let appointments: { asset: string; startTime: number; endTime: number; }[];
+    export let appointments: Appointment[];
     export let totalDaysLoaded: number;
 
     const selectedScale = getSelectedScale();
@@ -18,6 +21,17 @@
     let visibleRange = {start: 0, end: 2000};
     let prevTotalDaysLoaded = totalDaysLoaded;
     let newlyAddedCells = [];
+
+    let showAppointmentForm = false;
+    let editAppointment: Partial<Appointment> | null = null;
+    let dayStartTimestamp: number;
+
+    // Bereken de timestamp voor het begin van vandaag
+    onMount(() => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        dayStartTimestamp = Math.floor(today.getTime() / 1000);
+    });
 
     const CELL_WIDTH_PX = 60;
 
@@ -91,48 +105,74 @@
             };
         }
     });
+
+    function handleEditAppointment(event) {
+        editAppointment = event.detail;
+        showAppointmentForm = true;
+    }
+
+    function handleCellClick(event) {
+        // Bepaal de asset voor deze rij
+        const rowAsset = appointments.length > 0 ? appointments[0].asset : "Asset";
+
+        // Maak een conceptafspraak op basis van de geklekte cel
+        editAppointment = {
+            ...event.detail,
+            asset: rowAsset
+        };
+
+        // Toon het formulier
+        showAppointmentForm = true;
+    }
+
+    function handleCloseForm() {
+        showAppointmentForm = false;
+        editAppointment = null;
+    }
 </script>
 
 <div bind:this={rowElement} class="row">
     {#each visibleAppointments as appointment, i (appointment.startTime)}
-        <div class="appointment"
-             style="left: {calculateLeft(appointment.startTime)}px; width: {calculateWidth(appointment.startTime, appointment.endTime)}px;"
-             in:fly={{ x: 50, duration: 600 }}>
-            {appointment.asset}
-        </div>
+        <AppointmentItem
+                appointment={appointment}
+                width={calculateWidth(appointment.startTime, appointment.endTime)}
+                left={calculateLeft(appointment.startTime)}
+                {dayStartTimestamp}
+                on:edit={handleEditAppointment}
+                on:deleted
+                on:updated
+        />
     {/each}
+
     <div class="cells" style="width: {totalWidth}px;">
         {#each visibleCellPositions as cellIndex}
             <div class="cell-placeholder"
                  class:new-cell={isNewCell(cellIndex)}
                  style="left: {cellIndex * CELL_WIDTH_PX}px; width: {CELL_WIDTH_PX}px;"
                  in:fly={{ x: 30, duration: isNewCell(cellIndex) ? 800 : 300, delay: isNewCell(cellIndex) ? 200 : 0 }}>
-                <Cell pixelsPerMinute={selectedScale === timeScales.hour ? 1 : 1/60}/>
+                <CellClickHandler
+                        asset={appointments.length > 0 ? appointments[0].asset : "Asset"}
+                        {cellIndex}
+                        {dayStartTimestamp}
+                        pixelsPerMinute={selectedScale === timeScales.hour ? 1 : 1/60}
+                        on:cellClick={handleCellClick}
+                >
+                    <Cell pixelsPerMinute={selectedScale === timeScales.hour ? 1 : 1/60}/>
+                </CellClickHandler>
             </div>
         {/each}
     </div>
+
+    <AppointmentForm
+            bind:show={showAppointmentForm}
+            bind:editAppointment={editAppointment}
+            on:close={handleCloseForm}
+            on:created
+            on:updated
+    />
 </div>
 
 <style>
-    .appointment {
-        position: absolute;
-        height: 48px;
-        margin-top: 1px;
-        border-radius: 15px;
-        border: 1px dotted black;
-        background-color: #5DB1F8;
-        z-index: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    .cells {
-        display: block;
-        white-space: nowrap;
-        height: 50px;
-        position: relative;
-    }
-
     .cell-placeholder {
         position: absolute;
         height: 50px;
@@ -142,9 +182,17 @@
     .new-cell {
         background-color: rgba(173, 216, 230, 0.2);
     }
+
     .row {
         position: relative;
         overflow: visible;
         height: 50px;
+    }
+
+    .cells {
+        display: block;
+        white-space: nowrap;
+        height: 50px;
+        position: relative;
     }
 </style>
