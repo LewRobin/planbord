@@ -89,3 +89,75 @@ export function calculateWidth(startTime: number, endTime: number) {
         return (diffMinutes / 60) * cellWidthPx - 2;
     }
 }
+export function calculateTimestampFromPosition(
+    positionX: number,
+    scale: number,
+    cellWidthPx: number,
+    dayStartTimestamp: number,
+    originalStartTime: number
+): number {
+    const baseDate = new Date(dayStartTimestamp * 1000);
+
+    if (scale === timeScales.hour) {
+        const hourOffset = positionX / cellWidthPx;
+        const dayOffset = Math.floor(hourOffset / 24);
+        const hourOfDay = hourOffset % 24;
+
+        baseDate.setDate(baseDate.getDate() + dayOffset);
+        baseDate.setHours(Math.floor(hourOfDay), 0, 0, 0);
+    } else {
+        const dayOffset = Math.round(positionX / cellWidthPx);
+
+        const newDate = new Date(dayStartTimestamp * 1000);
+        newDate.setDate(newDate.getDate() + dayOffset);
+
+        const origTime = new Date(originalStartTime * 1000);
+        newDate.setHours(origTime.getHours(), origTime.getMinutes(), 0, 0);
+
+        return Math.floor(newDate.getTime() / 1000);
+    }
+
+    return Math.floor(baseDate.getTime() / 1000);
+}
+
+export function calculateEndTimeFromWidth(
+    startTime: number,
+    width: number,
+    scale: number,
+    cellWidthPx: number,
+    originalEndTime: number
+): number {
+    const startDate = new Date(startTime * 1000);
+    const endDate = new Date(startTime * 1000);
+
+    if (scale === timeScales.hour) {
+        const hoursDuration = width / cellWidthPx;
+        endDate.setTime(startDate.getTime() + (hoursDuration * 60 * 60 * 1000));
+    } else {
+        const daysDuration = Math.max(0.25, width / cellWidthPx);
+        endDate.setDate(startDate.getDate() + Math.floor(daysDuration));
+
+        const fractionalDay = daysDuration % 1;
+        if (fractionalDay > 0) {
+            const additionalHours = Math.round(fractionalDay * 24);
+            endDate.setHours(endDate.getHours() + additionalHours);
+        }
+
+        if (Math.floor(daysDuration) === daysDuration) {
+            const origEndTime = new Date(originalEndTime * 1000);
+            endDate.setHours(origEndTime.getHours(), origEndTime.getMinutes(), 0, 0);
+        }
+    }
+
+    return Math.floor(endDate.getTime() / 1000);
+}
+
+export function formatTime(timestamp: number): string {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+export function formatDate(timestamp: number): string {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+}
