@@ -1,7 +1,23 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es2020",
+    "module": "es2020",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "@/*": ["src/*"]
+    }
+  },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "tests/**/*",
+    "__mocks__/**/*"
   ],
   "exclude": [
     "node_modules/*",

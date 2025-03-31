@@ -19,11 +19,11 @@ export function setSelectedScale(scale) {
     selectedScale = scale;
 }
 
-export function unixTimestampToDate(unixTimestamp: number) {
+export function unixTimestampToDate(unixTimestamp) {
     return new Date(unixTimestamp * 1000);
 }
 
-const timeToMinutes = (unixTimestamp: number) => {
+const timeToMinutes = (unixTimestamp) => {
     const date = new Date(unixTimestamp * 1000);
     return date.getHours() * 60 + date.getMinutes();
 };
@@ -53,7 +53,7 @@ export function calculateTimeline(scale) {
 }
 
 
-export function calculateLeft(startTime: number) {
+export function calculateLeft(startTime) {
     const date = new Date(startTime * 1000);
     const baseDate = new Date();
     baseDate.setHours(0, 0, 0, 0);
@@ -69,7 +69,7 @@ export function calculateLeft(startTime: number) {
     }
 }
 
-export function calculateWidth(startTime: number, endTime: number) {
+export function calculateWidth(startTime, endTime) {
     const startDate = unixTimestampToDate(startTime);
     const endDate = unixTimestampToDate(endTime);
     const diffMs = endDate.getTime() - startDate.getTime();
