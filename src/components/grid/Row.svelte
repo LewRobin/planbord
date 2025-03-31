@@ -163,7 +163,6 @@
         {/each}
     </div>
 
-    <!-- Afspraken formulier -->
     <AppointmentForm
             bind:show={showAppointmentForm}
             bind:editAppointment={editAppointment}

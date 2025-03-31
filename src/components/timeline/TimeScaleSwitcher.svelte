@@ -7,25 +7,21 @@
     const currentScale = writable(getSelectedScale());
 
     const scaleLabels = {
+        [timeScales.halfHour]: '30 min',
         [timeScales.hour]: 'Uur',
-        [timeScales.day]: 'Dag',
-        [timeScales.week]: 'Week'
+        [timeScales.day]: 'Dag'
     };
 
     const availableScales = [
+        {value: timeScales.halfHour, label: scaleLabels[timeScales.halfHour]},
         {value: timeScales.hour, label: scaleLabels[timeScales.hour]},
         {value: timeScales.day, label: scaleLabels[timeScales.day]}
-        // { value: timeScales.week, label: scaleLabels[timeScales.week] }
     ];
 
     function changeScale(newScale) {
         setSelectedScale(newScale);
         currentScale.set(newScale);
 
-        resetBoard(newScale);
-    }
-
-    function resetBoard(newScale) {
         const timelineContainer = document.querySelector('.timeline-container');
         const rowsContainer = document.querySelector('.rows');
 
@@ -40,40 +36,16 @@
         setTimeout(() => {
             window.dispatchEvent(new Event('resize'));
 
-            setTimeout(() => {
-                const timelineHeader = document.querySelector('.timeline-header');
-                const dayHeader = document.querySelector('.day-header');
-                const weekHeader = document.querySelector('.week-header');
-                const hourHeader = document.querySelector('.hour-header');
+            window.dispatchEvent(new CustomEvent('forceTimelineUpdate', {
+                detail: {scale: newScale, timestamp: Date.now()}
+            }));
 
-                if (timelineHeader && timelineHeader.parentNode) {
-                    const parent = timelineHeader.parentNode;
-                    const clone = timelineHeader.cloneNode(true);
-                    parent.removeChild(timelineHeader);
-                    parent.appendChild(clone);
-                }
-
-                if (dayHeader) dayHeader.style.display = 'none';
-                if (weekHeader) weekHeader.style.display = 'none';
-                if (hourHeader) hourHeader.style.display = 'none';
-
-                setTimeout(() => {
-                    if (dayHeader) dayHeader.style.display = '';
-                    if (weekHeader) weekHeader.style.display = '';
-                    if (hourHeader) hourHeader.style.display = '';
-
-                    window.dispatchEvent(new CustomEvent('forceTimelineUpdate', {
-                        detail: {scale: newScale, timestamp: Date.now(), complete: true}
-                    }));
-
-                    if (timelineContainer) {
-                        timelineContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
-                    }
-                    if (rowsContainer) {
-                        rowsContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
-                    }
-                }, 50);
-            }, 50);
+            if (timelineContainer) {
+                timelineContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
+            }
+            if (rowsContainer) {
+                rowsContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
+            }
         }, 50);
     }
 

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
     import Button from '../Button.svelte';
-    import { AppointmentService } from '../../services/AppointmentService';
+    import { AppointmentService } from '@/services/AppointmentService';
     import { appointments, loadAppointments } from './AppointmentData';
     import type { Appointment } from './AppointmentData';
 
@@ -20,15 +20,34 @@
     let isLoading = false;
     let errorMessage = '';
 
-    $: {
-        if (editAppointment) {
+    $: if (!show) {
+        resetForm();
+    }
+
+    $: if (editAppointment && show) {
+        populateForm(editAppointment);
+    }
+
+    function populateForm(appointment: Partial<Appointment>) {
+        asset = appointment.asset || '';
+        title = appointment.title || '';
+        description = appointment.description || '';
+
+        if (appointment.startTime) {
+            const startDateTime = new Date(appointment.startTime * 1000);
+            startDate = startDateTime.toISOString().split('T')[0];
+            startTime = startDateTime.toTimeString().split(' ')[0].substring(0, 5);
+        }
+
+        if (appointment.endTime) {
+            const endDateTime = new Date(appointment.endTime * 1000);
+            endDate = endDateTime.toISOString().split('T')[0];
+            endTime = endDateTime.toTimeString().split(' ')[0].substring(0, 5);
         }
     }
 
     function closeModal() {
         show = false;
-        resetForm();
-        dispatch('close');
     }
 
     function resetForm() {
@@ -57,7 +76,7 @@
             const endTimestamp = await AppointmentService.convertToTimestamp(endDate, endTime);
 
             if (startTimestamp >= endTimestamp) {
-                errorMessage = 'End time must be after start time';
+                errorMessage = 'End time must be after start time silly';
                 isLoading = false;
                 return;
             }
@@ -82,7 +101,7 @@
 
             await loadAppointments();
 
-            closeModal();
+            show = false;
         } catch (error) {
             console.error('Error saving appointment:', error);
             errorMessage = 'Failed to save appointment. Please try again.';
@@ -147,7 +166,7 @@
 
                     <div class="form-actions">
                         <Button type="secondary" on:click={closeModal}>Cancel</Button>
-                        <Button type="primary" disabled={isLoading}>
+                        <Button type="primary">
                             {isLoading ? 'Saving...' : (editAppointment ? 'Update' : 'Save')}
                         </Button>
                     </div>
