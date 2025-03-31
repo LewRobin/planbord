@@ -19,44 +19,62 @@
     ];
 
     function changeScale(newScale) {
-        console.log("Changing scale to:", scaleLabels[newScale]);
-
-        // Stap 1: Stel de nieuwe schaal in
         setSelectedScale(newScale);
         currentScale.set(newScale);
 
-        // Stap 2: Trigger een custom event voor schaalwijziging
+        resetBoard(newScale);
+    }
+
+    function resetBoard(newScale) {
+        const timelineContainer = document.querySelector('.timeline-container');
+        const rowsContainer = document.querySelector('.rows');
+
+        if (timelineContainer) timelineContainer.scrollLeft = 0;
+        if (rowsContainer) rowsContainer.scrollLeft = 0;
+
         window.dispatchEvent(new CustomEvent('timeScaleChanged', {
             detail: {scale: newScale},
             bubbles: true,
         }));
 
-        // Stap 3: Voer een forcedRender uit met vertraging
         setTimeout(() => {
-            // Tijdlijncontainer resetten
-            const timelineContainer = document.querySelector('.timeline-container');
-            if (timelineContainer) {
-                timelineContainer.scrollLeft = 0;
-                // Handmatig een scroll event triggeren
-                timelineContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
-            }
-
-            // Rijen resetten
-            const rowsContainer = document.querySelector('.rows');
-            if (rowsContainer) {
-                rowsContainer.scrollLeft = 0;
-                // Handmatig een scroll event triggeren
-                rowsContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
-            }
-
-            // Trigger global resize event voor layout herberekening
             window.dispatchEvent(new Event('resize'));
 
-            // Forceer een volledige update door een custom event
-            window.dispatchEvent(new CustomEvent('forceTimelineUpdate', {
-                detail: {scale: newScale, timestamp: Date.now()}
-            }));
-        }, 100);
+            setTimeout(() => {
+                const timelineHeader = document.querySelector('.timeline-header');
+                const dayHeader = document.querySelector('.day-header');
+                const weekHeader = document.querySelector('.week-header');
+                const hourHeader = document.querySelector('.hour-header');
+
+                if (timelineHeader && timelineHeader.parentNode) {
+                    const parent = timelineHeader.parentNode;
+                    const clone = timelineHeader.cloneNode(true);
+                    parent.removeChild(timelineHeader);
+                    parent.appendChild(clone);
+                }
+
+                if (dayHeader) dayHeader.style.display = 'none';
+                if (weekHeader) weekHeader.style.display = 'none';
+                if (hourHeader) hourHeader.style.display = 'none';
+
+                setTimeout(() => {
+                    if (dayHeader) dayHeader.style.display = '';
+                    if (weekHeader) weekHeader.style.display = '';
+                    if (hourHeader) hourHeader.style.display = '';
+
+                    window.dispatchEvent(new CustomEvent('forceTimelineUpdate', {
+                        detail: {scale: newScale, timestamp: Date.now(), complete: true}
+                    }));
+
+                    if (timelineContainer) {
+                        timelineContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
+                    }
+                    if (rowsContainer) {
+                        rowsContainer.dispatchEvent(new Event('scroll', {bubbles: true}));
+                    }
+                }, 50);
+            }, 50);
+        }, 50);
     }
 
     onMount(() => {

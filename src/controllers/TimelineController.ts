@@ -12,8 +12,27 @@ export class TimelineController {
     public visibleRange: VisibleRange = {start: 0, end: 2000};
     // Properties
     private timelineElement: HTMLElement | null = null;
+    private currentScale = getSelectedScale();
 
     constructor(private totalDaysLoaded: Writable<number>) {
+        // Listen for scale changes
+        window.addEventListener('timeScaleChanged', (event: any) => {
+            // Reset state when scale changes
+            this.currentScale = event.detail.scale;
+            this.initialLoadComplete = false;
+            this.visibleRange = {start: 0, end: 2000};
+
+            // Force reload with a small delay to allow DOM updates
+            setTimeout(() => {
+                this.initialFill(true);
+
+                // Force view update
+                if (this.timelineElement) {
+                    this.updateVisibleRange();
+                    this.handleScroll();
+                }
+            }, 50);
+        });
     }
 
     // Setters
@@ -85,16 +104,21 @@ export class TimelineController {
         return Math.ceil(containerWidth / (cellWidthPx * cellsPerDay)) + (this.isDay() ? 10 : 5);
     }
 
-    async initialFill(): Promise<void> {
-        if (this.initialLoadComplete) return;
+    async initialFill(forceReload = false): Promise<void> {
+        if (this.initialLoadComplete && !forceReload) return;
 
         const requiredDays = this.calculateRequiredDays();
 
-        if (this.getDaysLoaded() < requiredDays) {
+        if (this.getDaysLoaded() < requiredDays || forceReload) {
             this.isLoading = true;
             this.newDaysLoaded = true;
 
-            this.totalDaysLoaded.update(n => Math.max(n, requiredDays));
+            // Reset dates count and reload
+            if (forceReload) {
+                this.totalDaysLoaded.set(requiredDays);
+            } else {
+                this.totalDaysLoaded.update(n => Math.max(n, requiredDays));
+            }
 
             // We'll handle the timeouts in the component to keep UI transitions there
             // Just return that we started loading

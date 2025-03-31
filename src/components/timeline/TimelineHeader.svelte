@@ -1,13 +1,40 @@
 <script lang="ts">
     import {fly} from 'svelte/transition';
+    import {onMount, afterUpdate} from 'svelte';
     import {cellWidthPx} from '../../utils/calculations';
     import type {Week} from '../../utils/types';
 
-    export let dateRange: Date[];
-    export let visibleDateRange: Date[];
-    export let visibleWeeks: Week[];
-    export let isDay: boolean;
+    export let dateRange: Date[] = [];
+    export let visibleDateRange: Date[] = [];
+    export let visibleWeeks: Week[] = [];
+    export let isDay: boolean = true;
     export let isNewDay: (date: Date) => boolean;
+    export let currentScale = null;
+    export let forceUpdate = false;
+
+    let mounted = false;
+
+    onMount(() => {
+        mounted = true;
+    });
+
+    afterUpdate(() => {
+        if (forceUpdate) {
+            const weekHeader = document.querySelector('.week-header');
+            const dayHeader = document.querySelector('.day-header');
+            const hourHeader = document.querySelector('.hour-header');
+
+            if (weekHeader) weekHeader.style.opacity = '0.99';
+            if (dayHeader) dayHeader.style.opacity = '0.99';
+            if (hourHeader) hourHeader.style.opacity = '0.99';
+
+            setTimeout(() => {
+                if (weekHeader) weekHeader.style.opacity = '';
+                if (dayHeader) dayHeader.style.opacity = '';
+                if (hourHeader) hourHeader.style.opacity = '';
+            }, 50);
+        }
+    });
 </script>
 
 {#if isDay}
