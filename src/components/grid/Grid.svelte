@@ -108,7 +108,6 @@
             {#each uniqueAssets as asset}
                 <div class="h-[50px] w-max flex items-center">{asset}</div>
             {/each}
-            <AppointmentButton/>
         </div>
         <div class="flex-col whitespace-nowrap flex-grow overflow-hidden bg-white dark:bg-gray-600 dark:text-white">
             <Timeline {totalDaysLoaded}/>

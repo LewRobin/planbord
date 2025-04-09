@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Button from '../Button.svelte';
+    import {Button} from 'flowbite-svelte';
     import AppointmentForm from './AppointmentForm.svelte';
     import { loadAppointments } from './AppointmentData';
     import type { Appointment } from './AppointmentData';
