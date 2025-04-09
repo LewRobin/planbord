@@ -1,24 +1,17 @@
-<script>
-    import {Button} from "flowbite-svelte";
-
-    export let timelineContainer;
+<script lang="ts">
+    import { timelineContainer } from '../../utils/timeLineStore';
+    import { Button } from 'flowbite-svelte';
 
     function goToToday() {
-        if (!timelineContainer) return;
+        if ($timelineContainer) {
+            $timelineContainer.scrollLeft = 0;
 
-        timelineContainer.scrollLeft = 0;
-
-        const rowsContainer = document.querySelector('.rows');
-        if (rowsContainer) {
-            rowsContainer.scrollLeft = 0;
+            const event = new CustomEvent('goToToday', { detail: { date: new Date() } });
+            window.dispatchEvent(event);
         }
-
-        window.dispatchEvent(new CustomEvent('goToToday'));
     }
 </script>
 
-<div class="today-button-container">
-    <Button on:click={goToToday} type="primary">
-        Vandaag
-    </Button>
-</div>
+<Button on:click={goToToday} class="text-white font-medium py-2 px-4 rounded">
+    Vandaag
+</Button>

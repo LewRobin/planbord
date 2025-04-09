@@ -1,20 +1,23 @@
 <script lang="ts">
-    import {onMount, tick, afterUpdate} from 'svelte';
-    import {type Writable} from 'svelte/store';
-    import {TimelineController} from '@/controllers/TimelineController';
+    import { onMount, tick, afterUpdate } from 'svelte';
+    import { type Writable } from 'svelte/store';
+    import { TimelineController } from '@/controllers/TimelineController';
     import TimelineHeader from './TimelineHeader.svelte';
     import LoadingIndicator from '../grid/LoadingIndicator.svelte';
     import TodayButton from "./TodayButton.svelte";
-    import {timeScales, getSelectedScale} from '@/utils/calculations';
-
-
+    import { timeScales, getSelectedScale } from '@/utils/calculations';
+    import { timelineContainer } from '../../utils/timeLineStore';
 
     export let totalDaysLoaded: Writable<number>;
     export let appointments = [];
 
-    let timelineContainer: HTMLElement;
+    let timelineContainerElement: HTMLElement;
     let controller: TimelineController;
     let forceRedraw = false;
+
+    $: if (timelineContainerElement) {
+        timelineContainer.set(timelineContainerElement);
+    }
 
     $: dateRange = controller ? controller.getDates() : [];
     $: weeks = controller ? controller.getWeeks(dateRange) : [];
@@ -78,8 +81,8 @@
     onMount(() => {
         controller = new TimelineController(totalDaysLoaded);
 
-        if (timelineContainer) {
-            controller.setTimelineElement(timelineContainer);
+        if (timelineContainerElement) {
+            controller.setTimelineElement(timelineContainerElement);
 
             const resizeObserver = new ResizeObserver(() => {
                 handleScroll();
@@ -88,7 +91,7 @@
                 }
             });
 
-            resizeObserver.observe(timelineContainer);
+            resizeObserver.observe(timelineContainerElement);
 
             window.addEventListener('forceTimelineUpdate', handleForceUpdate);
 
@@ -106,16 +109,14 @@
 
     afterUpdate(() => {
         if (forceRedraw) {
-            if (timelineContainer) {
-                timelineContainer.scrollLeft = 0;
+            if (timelineContainerElement) {
+                timelineContainerElement.scrollLeft = 0;
             }
         }
     });
 </script>
 
-<TodayButton timelineContainer={timelineContainer}/>
-
-<div bind:this={timelineContainer} class="timeline-container" on:scroll={handleScroll}>
+<div bind:this={timelineContainerElement} class="timeline-container" on:scroll={handleScroll}>
     <TimelineHeader
             {dateRange}
             {isDay}
