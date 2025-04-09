@@ -104,15 +104,16 @@
 
 <div>
     <div class="main-container">
-        <div class="asset-container">
+        <div class="asset-container bg-white dark:bg-gray-600 dark:text-white">
             {#each uniqueAssets as asset}
-                <div class="asset">{asset}</div>
+                <div class="h-[50px] w-max flex items-center">{asset}</div>
             {/each}
             <AppointmentButton/>
         </div>
-        <div class="grid-container">
+        <div class="flex-col whitespace-nowrap flex-grow overflow-hidden bg-white dark:bg-gray-600 dark:text-white">
             <Timeline {totalDaysLoaded}/>
-            <div bind:this={rowsContainer} class="rows" on:scroll={handleRowsScroll}>
+            <div bind:this={rowsContainer} class="flex-col overflow-x-auto rows"
+                 on:scroll={handleRowsScroll}>
                 {#each uniqueAssets as asset}
                     <Row
                             appointments={$appointments.filter(app => app.asset === asset)}
@@ -147,20 +148,7 @@
         height: 50px;
         width: max-content;
     }
-    .grid-container {
-        display: flex;
-        flex-direction: column;
-        white-space: nowrap;
-        border: 1px solid red;
-        flex-grow: 1;
-        width: 100%;
-        overflow: hidden;
-    }
     .rows {
-        display: flex;
-        flex-direction: column;
-        overflow-x: auto;
-        width: 100%;
         scrollbar-width: none;
         -ms-overflow-style: none;
     }

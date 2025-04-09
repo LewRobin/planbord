@@ -7,6 +7,7 @@
     import TodayButton from "./TodayButton.svelte";
     import TimeScaleSwitcher from "./TimeScaleSwitcher.svelte";
     import {timeScales, getSelectedScale} from '@/utils/calculations';
+    import {DarkMode} from "flowbite-svelte";
 
     export let totalDaysLoaded: Writable<number>;
     export let appointments = [];
@@ -112,11 +113,6 @@
     });
 </script>
 
-<h1 class="text-3xl font-bold underline">
-    Hello world!
-</h1>
-
-<TimeScaleSwitcher/>
 <TodayButton timelineContainer={timelineContainer}/>
 
 <div bind:this={timelineContainer} class="timeline-container" on:scroll={handleScroll}>

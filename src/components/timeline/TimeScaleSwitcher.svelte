@@ -2,7 +2,7 @@
     import {onMount} from 'svelte';
     import {timeScales, getSelectedScale, setSelectedScale} from '@/utils/calculations.js';
     import {writable} from 'svelte/store';
-    import Button from "../Button.svelte";
+    import {Button} from "flowbite-svelte";
 
     const currentScale = writable(getSelectedScale());
 
@@ -74,14 +74,3 @@
         </Button>
     {/each}
 </div>
-
-<style>
-    .scale-switcher {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 100;
-        display: flex;
-        gap: 4px;
-    }
-</style>

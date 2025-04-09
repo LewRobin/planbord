@@ -38,7 +38,7 @@
 </script>
 
 {#if isDay}
-    <div class="week-header">
+    <div class="week-header bg-white dark:bg-gray-600 dark:text-white">
         {#each visibleWeeks as week (week.date.getTime())}
             <div class="header-cell week-cell"
                  class:new-item={isNewDay(week.date)}
@@ -49,7 +49,7 @@
             </div>
         {/each}
     </div>
-    <div class="day-header">
+    <div class="day-header bg-white dark:bg-gray-600 dark:text-white">
         {#each visibleDateRange as date (date.getTime())}
             <div class="header-cell day-cell"
                  class:new-item={isNewDay(date)}
@@ -61,9 +61,9 @@
         {/each}
     </div>
 {:else}
-    <div class="day-header">
+    <div class="day-header bg-white dark:bg-gray-600 dark:text-white">
         {#each visibleDateRange as date (date.getTime())}
-            <div class="header-cell"
+            <div class="header-cell bg-blue-50"
                  class:new-item={isNewDay(date)}
                  style="width: {cellWidthPx * 24 - 2}px;
                         left: {dateRange.indexOf(date) * cellWidthPx * 24}px;"
@@ -72,7 +72,7 @@
             </div>
         {/each}
     </div>
-    <div class="hour-header">
+    <div class="hour-header bg-white dark:bg-gray-600 dark:text-white">
         {#each visibleDateRange as date (date.getTime())}
             {#each Array(24) as _, hourIndex}
                 <div class="header-cell"

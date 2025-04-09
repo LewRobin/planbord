@@ -1,9 +1,13 @@
 <script lang="ts">
     import Grid from '../src/components/grid/Grid.svelte';
+    import { DarkMode } from 'flowbite-svelte';
+    import Navbar from '../src/components/navbar/Navbar.svelte'
+
 
     let amountOfDays = 20;
 </script>
 <main>
+    <Navbar/>
     <Grid {amountOfDays}/>
 </main>
 
