@@ -190,7 +190,7 @@
         {/if}
 
         <FloatingLabelInput id="asset" required bind:value={asset}>Asset</FloatingLabelInput>
-        <FloatingLabelInput id="title" bind:value={title}>Titel</FloatingLabelInput>
+        <FloatingLabelInput id="title" bind:value={title}>Huurder</FloatingLabelInput>
 
         <div>
             <Label for="description">Beschrijving</Label>

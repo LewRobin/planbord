@@ -31,34 +31,6 @@ const initialAppointments: Appointment[] = [
         title: "Brainstormsessie",
         description: "Ideeën bespreken voor nieuw projectplan"
     },
-    {
-        asset: "Meeting Room A",
-        startTime: createTimestamp(today, 13, 0),    // 27 maart 13:00
-        endTime: createTimestamp(today, 14, 30),     // 27 maart 14:30
-        title: "Klantgesprek",
-        description: "Review van voortgang met klant"
-    },
-    {
-        asset: "Equipment Set 1",
-        startTime: createTimestamp(today, 15, 0),    // 27 maart 15:00
-        endTime: createTimestamp(today, 17, 0),      // 27 maart 17:00
-        title: "Opnames maken",
-        description: "Audio-opnames voor nieuwe podcast"
-    },
-    {
-        asset: "Project Studio",
-        startTime: createTimestamp(tomorrow, 10, 0), // 28 maart 10:00
-        endTime: createTimestamp(tomorrow, 12, 0),   // 28 maart 12:00
-        title: "Ontwikkelteam meeting",
-        description: "Wekelijkse sprint planning"
-    },
-    {
-        asset: "Meeting Room B",
-        startTime: createTimestamp(tomorrow, 14, 0), // 28 maart 14:00
-        endTime: createTimestamp(tomorrow, 16, 0),   // 28 maart 16:00
-        title: "Training sessie",
-        description: "Training nieuwe medewerkers"
-    }
 ];
 
 export const appointments = writable<Appointment[]>(initialAppointments);

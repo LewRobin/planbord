@@ -10,7 +10,15 @@
 
     export let amountOfDays;
 
-    $: uniqueAssets = Array.from(new Set($appointments.map(app => app.asset).filter(Boolean)));
+    let uniqueAssets = [];
+
+    $: {
+        if ($appointments && Array.isArray($appointments)) {
+            uniqueAssets = Array.from(new Set($appointments
+                .filter(app => app && app.asset)
+                .map(app => app.asset)));
+        }
+    }
 
     const totalDaysLoaded = writable(amountOfDays);
     let rowsContainer;
@@ -79,7 +87,11 @@
     }
 
     onMount(async () => {
-        await loadAppointments();
+        try {
+            await loadAppointments();
+        } catch (error) {
+            console.error('Error loading appointments:', error);
+        }
 
         if (rowsContainer) {
             const resizeObserver = new ResizeObserver(() => {
@@ -105,7 +117,7 @@
 <div>
     <div class="main-container">
         <div class="asset-container bg-white dark:bg-gray-600 dark:text-white">
-            {#each uniqueAssets as asset}
+            {#each uniqueAssets as asset (asset)}
                 <div class="h-[50px] w-max flex items-center">{asset}</div>
             {/each}
         </div>
@@ -113,9 +125,9 @@
             <Timeline {totalDaysLoaded}/>
             <div bind:this={rowsContainer} class="flex-col overflow-x-auto rows"
                  on:scroll={handleRowsScroll}>
-                {#each uniqueAssets as asset}
+                {#each uniqueAssets as asset (asset)}
                     <Row
-                            appointments={$appointments.filter(app => app.asset === asset)}
+                            appointments={$appointments ? $appointments.filter(app => app && app.asset === asset) : []}
                             totalDaysLoaded={$totalDaysLoaded}
                     />
                 {/each}
@@ -142,10 +154,6 @@
         z-index: 10;
         display: flex;
         flex-direction: column;
-    }
-    .asset {
-        height: 50px;
-        width: max-content;
     }
     .rows {
         scrollbar-width: none;

@@ -132,7 +132,7 @@
 </script>
 
 <div bind:this={rowElement} class="row">
-    {#each visibleAppointments as appointment, i (appointment.startTime)}
+    {#each visibleAppointments as appointment, i (appointment._id || `${appointment.asset}-${appointment.startTime}-${i}`)}
         <AppointmentItem
                 appointment={appointment}
                 width={calculateWidth(appointment.startTime, appointment.endTime)}
@@ -145,7 +145,7 @@
     {/each}
 
     <div class="cells" style="width: {totalWidth}px;">
-        {#each visibleCellPositions as cellIndex}
+        {#each visibleCellPositions as cellIndex (cellIndex)}
             <div class="cell-placeholder"
                  class:new-cell={isNewCell(cellIndex)}
                  style="left: {cellIndex * CELL_WIDTH_PX}px; width: {CELL_WIDTH_PX}px;"
