@@ -208,124 +208,48 @@
     }
 </script>
 
-<div class="appointment"
-     bind:this={appointmentEl}
-     style="left: {left}px; width: {width}px;"
-     on:click={handleClick}
-     on:mousedown={startDrag}
-     on:touchstart={handleTouchStart}
-     on:touchmove={handleTouchMove}
-     on:touchend={handleTouchEnd}
-     title="{appointment.title || 'Ongetitelde afspraak'} - {formatDate(appointment.startTime)} {formatTime(appointment.startTime)} tot {formatTime(appointment.endTime)}">
-
-    <div class="appointment-content">
-        <div class="appointment-title">{appointment.title || 'Ongetitelde afspraak'}</div>
-        <div class="appointment-time">
+<div
+        bind:this={appointmentEl}
+        class="absolute h-12 mt-[1px] rounded flex justify-between items-center cursor-grab select-none touch-none
+        bg-appointments-500 border border-appointments-700 shadow z-10 overflow-hidden whitespace-nowrap transition-colors
+         duration-200 hover:bg-appointments-600"
+        style="left: {left}px; width: {width}px;"
+        on:click={handleClick}
+        on:mousedown={startDrag}
+        on:touchstart={handleTouchStart}
+        on:touchmove={handleTouchMove}
+        on:touchend={handleTouchEnd}
+        title="{appointment.title || 'Ongetitelde afspraak'} - {formatDate(appointment.startTime)}
+        {formatTime(appointment.startTime)} tot {formatTime(appointment.endTime)}"
+>
+    <div class="overflow-hidden flex-grow">
+        <div class="font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+            {appointment.title || 'Ongetitelde afspraak'}
+        </div>
+        <div class="text-sm opacity-90">
             {formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}
         </div>
         {#if appointment.description}
-            <div class="appointment-description">{appointment.description}</div>
+            <div class="text-sm overflow-hidden text-ellipsis whitespace-nowrap opacity-80">
+                {appointment.description}
+            </div>
         {/if}
     </div>
 
-    <div class="appointment-controls">
-        <button class="delete-button" on:click={handleDelete} title="Verwijder afspraak">×</button>
+    <div>
+        <button
+                class="w-5 h-5 rounded-full bg-white/30 border-none text-white font-bold
+                text-sm cursor-pointer flex items-center justify-center transition-opacity duration-200
+                p-0 ml-1 group-hover:opacity-100 hover:bg-red-500/60 -mt-5 mr-2"
+                on:click={handleDelete}
+                title="Verwijder afspraak">
+        </button>
     </div>
 
-    <div class="resize-handle" on:mousedown={startResize} title="Sleep om de duur aan te passen"></div>
+    <div
+            class="absolute right-0 top-0 bottom-0 w-2 cursor-e-resize bg-white/30 opacity-0
+            transition-opacity duration-200 hover:opacity-100 group-hover:opacity-100"
+            on:mousedown={startResize}
+            title="Sleep om de duur aan te passen"
+    ></div>
 </div>
-
-<style>
-    .appointment {
-        position: absolute;
-        height: 48px;
-        margin-top: 1px;
-        border-radius: 4px;
-        border: 1px solid #085da5;
-        background-color: #5DB1F8;
-        z-index: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        cursor: grab;
-        transition: background-color 0.2s;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        user-select: none;
-        touch-action: none;
-    }
-
-    .appointment:hover {
-        background-color: #4a90e2;
-    }
-
-    .appointment-content {
-        overflow: hidden;
-        flex-grow: 1;
-    }
-
-    .appointment-title {
-        font-weight: bold;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .appointment-time {
-        font-size: 0.8em;
-        opacity: 0.9;
-    }
-
-    .appointment-description {
-        font-size: 0.8em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        opacity: 0.8;
-    }
-
-    .delete-button {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.3);
-        border: none;
-        color: white;
-        font-weight: bold;
-        font-size: 14px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.2s;
-        padding: 0;
-        margin-left: 4px;
-    }
-
-    .appointment:hover .delete-button {
-        opacity: 1;
-    }
-
-    .delete-button:hover {
-        background-color: rgba(255, 0, 0, 0.6);
-    }
-
-    .resize-handle {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 8px;
-        cursor: e-resize;
-        background-color: rgba(255, 255, 255, 0.3);
-        opacity: 0;
-        transition: opacity 0.2s;
-    }
-
-    .appointment:hover .resize-handle {
-        opacity: 1;
-    }
-</style>
