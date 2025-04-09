@@ -7,7 +7,7 @@
 
 <Navbar>
     <NavBrand href="/">
-        <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite</span>
+        <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Planbord</span>
     </NavBrand>
     <NavHamburger  />
     <NavUl >

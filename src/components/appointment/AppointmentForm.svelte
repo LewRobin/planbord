@@ -4,6 +4,15 @@
     import { AppointmentService } from '@/services/AppointmentService';
     import { appointments, loadAppointments } from './AppointmentData';
     import type { Appointment } from './AppointmentData';
+    import {
+        Modal,
+        FloatingLabelInput,
+        Textarea,
+        Label,
+        Datepicker,
+        Alert,
+        ButtonGroup
+    } from 'flowbite-svelte';
 
     export let show = false;
     export let editAppointment: Partial<Appointment> | null = null;
@@ -93,14 +102,11 @@
                 dispatch('updated');
             } else {
                 const newAppointment = await AppointmentService.createAppointment(appointmentData);
-
                 appointments.update(current => [...current, newAppointment]);
-
                 dispatch('created', newAppointment);
             }
 
             await loadAppointments();
-
             show = false;
         } catch (error) {
             console.error('Error saving appointment:', error);
@@ -111,165 +117,79 @@
     }
 </script>
 
-{#if show}
-    <div class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h2>{editAppointment ? 'Edit Appointment' : 'Add New Appointment'}</h2>
-                <button class="close-button" on:click={closeModal}>×</button>
+<Modal
+        title={editAppointment ? 'Afspraak Aanpassen' : 'Nieuwe Afspraak'}
+        bind:open={show}
+        size="lg"
+        autoclose={false}
+>
+    <form on:submit|preventDefault={handleSubmit} class="space-y-4">
+        {#if errorMessage}
+            <Alert color="red" border>
+                {errorMessage}
+            </Alert>
+        {/if}
+        <FloatingLabelInput id="asset" required bind:value={asset}> Asset </FloatingLabelInput>
+        <FloatingLabelInput id="title" bind:value={title}> Titel </FloatingLabelInput>
+
+        <div>
+            <Label for="description">Description</Label>
+            <Textarea id="description" rows={3} bind:value={description} placeholder="Additional details" />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <Label for="startDate">Start Date *</Label>
+                <input
+                        class="block w-full p-2.5 border rounded-lg text-sm"
+                        type="date"
+                        id="startDate"
+                        bind:value={startDate}
+                        required
+                />
             </div>
 
-            <div class="modal-body">
-                {#if errorMessage}
-                    <div class="error-message">{errorMessage}</div>
-                {/if}
-
-                <form on:submit|preventDefault={handleSubmit}>
-                    <div class="form-group">
-                        <label for="asset">Asset *</label>
-                        <input type="text" id="asset" bind:value={asset} placeholder="Asset name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" id="title" bind:value={title} placeholder="Appointment title">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" bind:value={description} placeholder="Additional details"></textarea>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="startDate">Start Date *</label>
-                            <input type="date" id="startDate" bind:value={startDate} required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="startTime">Start Time *</label>
-                            <input type="time" id="startTime" bind:value={startTime} required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="endDate">End Date *</label>
-                            <input type="date" id="endDate" bind:value={endDate} required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="endTime">End Time *</label>
-                            <input type="time" id="endTime" bind:value={endTime} required>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <Button type="secondary" on:click={closeModal}>Cancel</Button>
-                        <Button type="primary">
-                            {isLoading ? 'Saving...' : (editAppointment ? 'Update' : 'Save')}
-                        </Button>
-                    </div>
-                </form>
+            <div>
+                <Label for="startTime">Start Time *</Label>
+                <input
+                        class="block w-full p-2.5 border rounded-lg text-sm"
+                        type="time"
+                        id="startTime"
+                        bind:value={startTime}
+                        required
+                />
             </div>
         </div>
-    </div>
-{/if}
 
-<style>
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <Label for="endDate">End Date *</Label>
+                <input
+                        class="block w-full p-2.5 border rounded-lg text-sm"
+                        type="date"
+                        id="endDate"
+                        bind:value={endDate}
+                        required
+                />
+            </div>
 
-    .modal-container {
-        background-color: white;
-        border-radius: 8px;
-        width: 90%;
-        max-width: 600px;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
+            <div>
+                <Label for="endTime">End Time *</Label>
+                <input
+                        class="block w-full p-2.5 border rounded-lg text-sm"
+                        type="time"
+                        id="endTime"
+                        bind:value={endTime}
+                        required
+                />
+            </div>
+        </div>
 
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 24px;
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-    .modal-header h2 {
-        margin: 0;
-        font-size: 1.5rem;
-    }
-
-    .close-button {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        padding: 0;
-        margin: 0;
-        color: #666;
-    }
-
-    .modal-body {
-        padding: 24px;
-    }
-
-    .form-group {
-        margin-bottom: 16px;
-        width: 100%;
-    }
-
-    .form-row {
-        display: flex;
-        gap: 16px;
-        margin-bottom: 16px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-    }
-
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-
-    .form-group textarea {
-        min-height: 100px;
-        resize: vertical;
-    }
-
-    .form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-        margin-top: 24px;
-    }
-
-    .error-message {
-        color: #d32f2f;
-        background-color: #ffebee;
-        padding: 10px;
-        border-radius: 4px;
-        margin-bottom: 16px;
-    }
-</style>
+        <div class="flex justify-end gap-2 pt-4">
+            <Button type="secondary" on:click={closeModal}>Cancel</Button>
+            <Button type="primary" disabled={isLoading}>
+                {isLoading ? 'Saving...' : (editAppointment ? 'Update' : 'Save')}
+            </Button>
+        </div>
+    </form>
+</Modal>
