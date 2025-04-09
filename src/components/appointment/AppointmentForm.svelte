@@ -247,7 +247,7 @@
 
         <div class="flex justify-end gap-2 pt-4">
             <Button color="alternative" on:click={closeModal}>Annuleren</Button>
-            <Button disabled={isLoading}>
+            <Button type="submit" disabled={isLoading}>
                 {isLoading ? 'Bezig met opslaan...' : (editAppointment ? 'Bijwerken' : 'Opslaan')}
             </Button>
         </div>

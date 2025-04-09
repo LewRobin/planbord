@@ -12,6 +12,4 @@
     }
 </script>
 
-<Button on:click={goToToday} class="text-white font-medium py-2 px-4 rounded">
-    Vandaag
-</Button>
+<Button on:click={goToToday}> Vandaag </Button>
