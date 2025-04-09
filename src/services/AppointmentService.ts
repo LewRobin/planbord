@@ -3,9 +3,8 @@ import type { Appointment } from '../components/appointment/AppointmentData';
 const API_URL = 'http://localhost:3000/api';
 
 export class AppointmentService {
-    static async getAllAppointments(): Promise<Appointment[]> {
+    static async getAllAppointments(): Promise<{data: Appointment[]}> {
         try {
-            // Added to temp keep track of the path used
             console.log("Fetching appointments from:", API_URL);
             const response = await fetch(`${API_URL}/appointments`);
 

@@ -65,12 +65,19 @@ export const appointments = writable<Appointment[]>(initialAppointments);
 
 export async function loadAppointments() {
     try {
-        const data = await AppointmentService.getAllAppointments();
-        if (data && data.length > 0) {
-            appointments.set(data);
+        console.log("Loading appointments from API");
+        const response = await AppointmentService.getAllAppointments();
+        console.log("Received appointments:", response);
+
+        const data = response.data || response;
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            console.log("Processing", data.length, "appointments");
+            appointments.set([...data]);
             return data;
         } else {
-            console.log('Using Fallback');
+            console.log("No appointments found, using fallback data");
+            appointments.set(initialAppointments);
             return initialAppointments;
         }
     } catch (error) {
