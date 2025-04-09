@@ -1,5 +1,5 @@
 <script>
-    import Button from "../Button.svelte";
+    import {Button} from "flowbite-svelte";
 
     export let timelineContainer;
 
@@ -17,18 +17,8 @@
     }
 </script>
 
-<!--TODO fix reloading timeline after clicking this button -->
 <div class="today-button-container">
-    <Button icon="📅" on:click={goToToday} type="primary">
+    <Button on:click={goToToday} type="primary">
         Vandaag
     </Button>
 </div>
-
-<style>
-    .today-button-container {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 100;
-    }
-</style>

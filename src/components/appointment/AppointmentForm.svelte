@@ -1,11 +1,11 @@
 <script lang="ts">
     import { createEventDispatcher, onMount, afterUpdate } from 'svelte';
-    import Button from '../Button.svelte';
     import { AppointmentService } from '@/services/AppointmentService';
     import { appointments, loadAppointments } from './AppointmentData';
     import type { Appointment } from './AppointmentData';
     import {
         Modal,
+        Button,
         FloatingLabelInput,
         Textarea,
         Label,
@@ -182,11 +182,6 @@
         size="lg"
         autoclose={false}
 >
-    <div>
-        <p class="text-xs text-gray-500 mb-2">Debug info: Render count: {renderCount}, Last event: {lastTimepickerEvent}</p>
-        <p class="text-xs text-gray-500 mb-4">Current times: start: {startTime}, end: {endTime}</p>
-    </div>
-
     <form on:submit|preventDefault={handleSubmit} class="space-y-4">
         {#if errorMessage}
             <Alert color="red" border>
@@ -251,8 +246,8 @@
         </div>
 
         <div class="flex justify-end gap-2 pt-4">
-            <Button type="secondary" on:click={closeModal}>Annuleren</Button>
-            <Button type="primary" disabled={isLoading}>
+            <Button color="alternative" on:click={closeModal}>Annuleren</Button>
+            <Button disabled={isLoading}>
                 {isLoading ? 'Bezig met opslaan...' : (editAppointment ? 'Bijwerken' : 'Opslaan')}
             </Button>
         </div>

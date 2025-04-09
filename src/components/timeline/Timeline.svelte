@@ -5,9 +5,9 @@
     import TimelineHeader from './TimelineHeader.svelte';
     import LoadingIndicator from '../grid/LoadingIndicator.svelte';
     import TodayButton from "./TodayButton.svelte";
-    import TimeScaleSwitcher from "./TimeScaleSwitcher.svelte";
     import {timeScales, getSelectedScale} from '@/utils/calculations';
-    import {DarkMode} from "flowbite-svelte";
+
+
 
     export let totalDaysLoaded: Writable<number>;
     export let appointments = [];
