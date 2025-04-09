@@ -38,9 +38,9 @@
 </script>
 
 {#if isDay}
-    <div class="week-header bg-white dark:bg-gray-600 dark:text-white">
+    <div class="h-[30px] relative font-bold bg-white dark:bg-gray-600 dark:text-white">
         {#each visibleWeeks as week (week.date.getTime())}
-            <div class="header-cell week-cell"
+            <div class=" text-center border-s h-7 absolute flex justify-center overflow-hidden items-center  z-30"
                  class:new-item={isNewDay(week.date)}
                  style="width: {week.width}px;
                         left: {week.startIndex * cellWidthPx}px;"
@@ -49,9 +49,9 @@
             </div>
         {/each}
     </div>
-    <div class="day-header bg-white dark:bg-gray-600 dark:text-white">
+    <div class="h-[30px] relative bg-white dark:bg-gray-500 dark:text-white">
         {#each visibleDateRange as date (date.getTime())}
-            <div class="header-cell day-cell"
+            <div class=" text-center border-s h-7 absolute flex justify-center overflow-hidden items-center"
                  class:new-item={isNewDay(date)}
                  style="width: {cellWidthPx - 2}px;
                         left: {dateRange.indexOf(date) * cellWidthPx}px;"
@@ -61,9 +61,9 @@
         {/each}
     </div>
 {:else}
-    <div class="day-header bg-white dark:bg-gray-600 dark:text-white">
+    <div class="h-[30px] relative font-bold bg-white dark:bg-gray-600 dark:text-white">
         {#each visibleDateRange as date (date.getTime())}
-            <div class="header-cell bg-blue-50"
+            <div class=" text-center border-s h-7 absolute flex justify-center overflow-hidden items-center"
                  class:new-item={isNewDay(date)}
                  style="width: {cellWidthPx * 24 - 2}px;
                         left: {dateRange.indexOf(date) * cellWidthPx * 24}px;"
@@ -72,10 +72,10 @@
             </div>
         {/each}
     </div>
-    <div class="hour-header bg-white dark:bg-gray-600 dark:text-white">
+    <div class="h-[30px] w-0 bg-white dark:bg-gray-500 dark:text-white">
         {#each visibleDateRange as date (date.getTime())}
             {#each Array(24) as _, hourIndex}
-                <div class="header-cell"
+                <div class=" text-center border-s h-7 absolute flex justify-center overflow-hidden items-center"
                      class:new-item={isNewDay(date)}
                      style="width: {cellWidthPx - 2}px;
                             left: {(dateRange.indexOf(date) * 24 + hourIndex) * cellWidthPx}px;"
@@ -88,48 +88,9 @@
 {/if}
 
 <style>
-    .week-header {
-        position: relative;
-        height: 30px;
-        font-weight: bold;
-        background-color: #e0e0e0;
-    }
-
-    .hour-header {
-        position: relative;
-        height: 30px;
-    }
-
-    .day-header {
-        position: relative;
-        height: 30px;
-        font-weight: bold;
-        background-color: #f0f0f0;
-    }
-
-    .header-cell {
-        text-align: center;
-        border: 1px solid #ccc;
-        position: absolute;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.5s ease;
-        overflow: hidden;
-    }
-
-    .week-cell {
-        z-index: 3;
-    }
-
-    .day-cell {
-        z-index: 2;
-    }
-
     .new-item {
         background-color: #f0f8ff;
         box-shadow: 0 0 5px rgba(0, 100, 255, 0.5);
-        z-index: 4;
+        z-index: 40;
     }
 </style>
