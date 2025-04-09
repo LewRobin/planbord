@@ -1,3 +1,4 @@
+// rollup.config.js
 import {spawn} from 'child_process';
 import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
@@ -7,6 +8,9 @@ import livereload from 'rollup-plugin-livereload';
 import css from 'rollup-plugin-css-only';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
+import postcss from 'rollup-plugin-postcss';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -54,7 +58,20 @@ export default {
                 dev: !production
             }
         }),
-        css({output: 'bundle.css'}),
+
+        // Add PostCSS plugin before css plugin
+        postcss({
+            plugins: [
+                tailwindcss(),
+                autoprefixer(),
+            ],
+            extract: 'bundle.css',
+            minimize: production,
+            sourceMap: !production
+        }),
+
+        // Comment out the original css plugin since we're using postcss plugin
+        // css({output: 'bundle.css'}),
 
         resolve({
             browser: true,
