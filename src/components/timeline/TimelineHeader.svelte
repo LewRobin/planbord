@@ -86,11 +86,3 @@
         {/each}
     </div>
 {/if}
-
-<style>
-    .new-item {
-        background-color: #f0f8ff;
-        box-shadow: 0 0 5px rgba(0, 100, 255, 0.5);
-        z-index: 40;
-    }
-</style>
