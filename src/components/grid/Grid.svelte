@@ -6,17 +6,28 @@
     import LoadingIndicator from './LoadingIndicator.svelte';
     import {getSelectedScale, timeScales, cellWidthPx} from '@/utils/calculations.js';
     import {appointments, loadAppointments} from '../appointment/AppointmentData';
-    import AppointmentButton from "../appointment/AppointmentButton.svelte";
+    import {activeFilter} from '../../utils/filterStore';
 
     export let amountOfDays;
 
     let uniqueAssets = [];
+    let filteredAppointments = [];
 
     $: {
         if ($appointments && Array.isArray($appointments)) {
-            uniqueAssets = Array.from(new Set($appointments
+            if ($activeFilter) {
+                filteredAppointments = $appointments.filter(app =>
+                    app && app.title && app.title.toLowerCase().includes($activeFilter.toLowerCase())
+                );
+            } else {
+                filteredAppointments = [...$appointments];
+            }
+
+            uniqueAssets = Array.from(new Set(filteredAppointments
                 .filter(app => app && app.asset)
                 .map(app => app.asset)));
+
+            uniqueAssets.sort((a, b) => a.localeCompare(b));
         }
     }
 
@@ -26,7 +37,6 @@
     let loadingMessage = "";
     let initialLoadDone = false;
 
-    // Calculate required initial days, can be increased if needed
     function calculateInitialDays() {
         if (!rowsContainer) return 30;
 
@@ -37,7 +47,6 @@
         return Math.ceil(containerWidth / (cellWidthPx * cellsPerDay)) + (selectedScale === timeScales.hour ? 5 : 10);
     }
 
-    // Fill timeline initially
     function initialFill() {
         if (initialLoadDone) return;
 
@@ -64,13 +73,11 @@
         const scrollWidth = rowsContainer.scrollWidth;
         const clientWidth = rowsContainer.clientWidth;
 
-        // Sync timeline scroll which does lag when traveling weeks very fast
         const timelineContainer = document.querySelector('.timeline-container');
         if (timelineContainer) {
             timelineContainer.scrollLeft = scrollLeft;
         }
 
-        // Load more data when near edge
         if (scrollLeft + clientWidth >= scrollWidth * 0.7 && !isLoading && initialLoadDone) {
             isLoading = true;
             loadingMessage = "Meer dagen laden...";
@@ -120,6 +127,11 @@
             {#each uniqueAssets as asset (asset)}
                 <div class="h-[50px] w-max flex items-center">{asset}</div>
             {/each}
+            {#if uniqueAssets.length === 0}
+                <div class="p-4 text-center text-gray-500 dark:text-gray-300">
+                    Geen resultaten gevonden
+                </div>
+            {/if}
         </div>
         <div class="flex-col whitespace-nowrap flex-grow overflow-hidden bg-white dark:bg-gray-600 dark:text-white">
             <Timeline {totalDaysLoaded}/>
@@ -127,7 +139,7 @@
                  on:scroll={handleRowsScroll}>
                 {#each uniqueAssets as asset (asset)}
                     <Row
-                            appointments={$appointments ? $appointments.filter(app => app && app.asset === asset) : []}
+                            appointments={filteredAppointments.filter(app => app && app.asset === asset)}
                             totalDaysLoaded={$totalDaysLoaded}
                     />
                 {/each}

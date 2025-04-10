@@ -74,21 +74,29 @@ export function calculateWidth(startTime: number, endTime: number) {
     const endDate = unixTimestampToDate(endTime);
     const diffMs = endDate.getTime() - startDate.getTime();
 
+    const adjustedDiffMs = diffMs < 0 ? diffMs + (24 * 60 * 60 * 1000) : diffMs;
+
     if (selectedScale === timeScales.day) {
         let startMinutes = timeToMinutes(startTime);
         let endMinutes = timeToMinutes(endTime);
+
+        if (endMinutes < startMinutes) {
+            endMinutes += 24 * 60;
+        }
+
         return Math.round((endMinutes - startMinutes) / 15) - 2;
     } else if (selectedScale === timeScales.week) {
-        const diffDays = diffMs / (1000 * 60 * 60 * 24);
+        const diffDays = adjustedDiffMs / (1000 * 60 * 60 * 24);
         return (diffDays / 7) * cellWidthPx - 2;
     } else if (selectedScale === timeScales.halfHour) {
-        const diffMinutes = diffMs / (1000 * 60);
+        const diffMinutes = adjustedDiffMs / (1000 * 60);
         return (diffMinutes / 30) * cellWidthPx - 2;
     } else {
-        const diffMinutes = diffMs / (1000 * 60);
+        const diffMinutes = adjustedDiffMs / (1000 * 60);
         return (diffMinutes / 60) * cellWidthPx - 2;
     }
 }
+
 export function calculateTimestampFromPosition(
     positionX: number,
     scale: number,

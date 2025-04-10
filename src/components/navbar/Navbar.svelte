@@ -1,11 +1,12 @@
 <script>
     import {Navbar, NavBrand, NavLi, NavUl, NavHamburger, DarkMode, Dropdown, DropdownItem, Button} from 'flowbite-svelte';
     import AppointmentButton from "../appointment/AppointmentButton.svelte";
-    import { Search } from 'flowbite-svelte';
     import TodayButton from "../timeline/TodayButton.svelte";
+    import SearchComponent from "./SearchComponent.svelte";
     import {onMount} from 'svelte';
-    import {timeScales, getSelectedScale, setSelectedScale} from '@/utils/calculations.js';
+    import {timeScales, getSelectedScale, setSelectedScale} from '../../utils/calculations.js';
     import {writable} from 'svelte/store';
+    import {activeFilter} from '../../utils/filterStore';
 
     let dropdownOpen = false;
 
@@ -54,6 +55,14 @@
         }, 50);
     }
 
+    function handleFilter(event) {
+        activeFilter.set(event.detail.term);
+    }
+
+    function handleClearFilter() {
+        activeFilter.set(null);
+    }
+
     onMount(() => {
         currentScale.set(getSelectedScale());
 
@@ -75,10 +84,10 @@
     <NavHamburger />
     <NavUl>
         <NavLi>
-            <form class="flex gap-2">
-                <Search size="md" />
-                <Button class="p-2.5!">X</Button>
-            </form>
+            <SearchComponent
+                    on:filter={handleFilter}
+                    on:clearFilter={handleClearFilter}
+            />
         </NavLi>
         <NavLi>
             <TodayButton/>
