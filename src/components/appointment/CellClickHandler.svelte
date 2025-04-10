@@ -6,12 +6,11 @@
     export let cellIndex: number;
     export let dayStartTimestamp: number;
     export let pixelsPerMinute: number;
+    export let isGroupCell: boolean = false;
 
     const dispatch = createEventDispatcher();
 
     function handleCellClick(event: MouseEvent) {
-        console.log('Cell clicked:', { asset, cellIndex, scale: getSelectedScale() });
-
         const selectedScale = getSelectedScale();
         let startTimestamp, endTimestamp;
 
@@ -44,33 +43,20 @@
             asset,
             startTime: startTimestamp,
             endTime: endTimestamp,
+            isGroupReservation: isGroupCell,
             cellInfo: {
                 index: cellIndex,
                 scale: selectedScale
             }
         };
-
-        console.log('Dispatching cellClick event with details:', details);
-
         dispatch('cellClick', details);
-
         event.stopPropagation();
     }
 </script>
 
-<div class="cell-click-area" on:click={handleCellClick} title="Klik om afspraak toe te voegen">
+<div
+        class="position-relative w-auto h-auto cursor-pointer"
+        on:click={handleCellClick}
+        title={isGroupCell ? "Klik om een groepsreservering te maken" : "Klik om afspraak toe te voegen"}>
     <slot></slot>
 </div>
-
-<style>
-    .cell-click-area {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-    }
-
-    .cell-click-area:hover {
-        background-color: rgba(74, 144, 226, 0.1);
-    }
-</style>

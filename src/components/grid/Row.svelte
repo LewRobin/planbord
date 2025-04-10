@@ -3,6 +3,7 @@
     import AppointmentItem from '../appointment/AppointmentItem.svelte';
     import CellClickHandler from '../appointment/CellClickHandler.svelte';
     import AppointmentForm from '../appointment/AppointmentForm.svelte';
+    import AvailabilityItem from './AvailabilityItem.svelte';
     import {
         calculateWidth,
         calculateLeft,
@@ -15,6 +16,8 @@
 
     export let appointments: Appointment[];
     export let totalDaysLoaded: number;
+    export let assetName: string = "";
+    export let isAvailabilityRow: boolean = false;
 
     const selectedScale = getSelectedScale();
     let rowElement: HTMLElement;
@@ -26,7 +29,6 @@
     let editAppointment: Partial<Appointment> | null = null;
     let dayStartTimestamp: number;
 
-    // Bereken de timestamp voor het begin van vandaag
     onMount(() => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -112,16 +114,13 @@
     }
 
     function handleCellClick(event) {
-        // Bepaal de asset voor deze rij
-        const rowAsset = appointments.length > 0 ? appointments[0].asset : "Asset";
+        const rowAsset = assetName || (appointments.length > 0 ? appointments[0].asset : "Asset");
 
-        // Maak een conceptafspraak op basis van de geklekte cel
         editAppointment = {
             ...event.detail,
             asset: rowAsset
         };
 
-        // Toon het formulier
         showAppointmentForm = true;
     }
 
@@ -132,17 +131,30 @@
 </script>
 
 <div bind:this={rowElement} class="row">
-    {#each visibleAppointments as appointment, i (appointment._id || `${appointment.asset}-${appointment.startTime}-${i}`)}
-        <AppointmentItem
-                appointment={appointment}
-                width={calculateWidth(appointment.startTime, appointment.endTime)}
-                left={calculateLeft(appointment.startTime)}
-                {dayStartTimestamp}
-                on:edit={handleEditAppointment}
-                on:deleted
-                on:updated
-        />
-    {/each}
+    {#if !isAvailabilityRow}
+        <!-- Normale weergave voor reguliere assets -->
+        {#each visibleAppointments as appointment, i (appointment._id || `${appointment.asset}-${appointment.startTime}-${i}`)}
+            <AppointmentItem
+                    appointment={appointment}
+                    width={calculateWidth(appointment.startTime, appointment.endTime)}
+                    left={calculateLeft(appointment.startTime)}
+                    {dayStartTimestamp}
+                    on:edit={handleEditAppointment}
+                    on:deleted
+                    on:updated
+            />
+        {/each}
+    {:else}
+        <!-- Weergave voor beschikbaarheid -->
+        {#each visibleAppointments as availability, i (availability._id || `${availability.asset}-${availability.startTime}-${i}`)}
+            <AvailabilityItem
+                    availability={availability}
+                    width={calculateWidth(availability.startTime, availability.endTime)}
+                    left={calculateLeft(availability.startTime)}
+                    on:click={handleCellClick}
+            />
+        {/each}
+    {/if}
 
     <div class="cells" style="width: {totalWidth}px;">
         {#each visibleCellPositions as cellIndex (cellIndex)}
@@ -151,11 +163,12 @@
                  style="left: {cellIndex * CELL_WIDTH_PX}px; width: {CELL_WIDTH_PX}px;"
                  in:fly={{ x: 30, duration: isNewCell(cellIndex) ? 800 : 300, delay: isNewCell(cellIndex) ? 200 : 0 }}>
                 <CellClickHandler
-                        asset={appointments.length > 0 ? appointments[0].asset : "Asset"}
+                        asset={assetName || (appointments.length > 0 ? appointments[0].asset : "Asset")}
                         {cellIndex}
                         {dayStartTimestamp}
                         pixelsPerMinute={selectedScale === timeScales.hour ? 1 : 1/60}
                         on:cellClick={handleCellClick}
+                        isGroupCell={isAvailabilityRow}
                 >
                     <Cell pixelsPerMinute={selectedScale === timeScales.hour ? 1 : 1/60}/>
                 </CellClickHandler>
