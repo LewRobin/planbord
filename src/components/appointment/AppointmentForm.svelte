@@ -11,8 +11,10 @@
         Label,
         Datepicker,
         Timepicker,
-        Alert
+        Alert,
+        Select
     } from 'flowbite-svelte';
+    import { assetGroups } from '../../utils/assetGroupStore';
 
     export let show = false;
     export let editAppointment: Partial<Appointment> | null = null;
@@ -23,8 +25,10 @@
     let maxTime = "18:00";
 
     let asset = '';
+    let assetGroup = '';
     let title = '';
     let description = '';
+    let isGroupReservation = false;
 
     let startDateObj: Date | null = null;
     let endDateObj: Date | null = null;
@@ -34,9 +38,47 @@
 
     let isLoading = false;
     let errorMessage = '';
+    let availableAssets = [];
 
     let renderCount = 0;
     let lastTimepickerEvent = 'Geen';
+
+    async function calculateAvailableAssets() {
+        if (!startDateObj || !endDateObj || !startTime || !endTime) return;
+
+        try {
+            const startDate = formatDateForTimestamp(startDateObj);
+            const endDate = formatDateForTimestamp(endDateObj);
+
+            const startTimestamp = await AppointmentService.convertToTimestamp(
+                startDate,
+                startTime
+            );
+
+            const endTimestamp = await AppointmentService.convertToTimestamp(
+                endDate,
+                endTime
+            );
+
+            const allAppointments = $appointments || [];
+
+            if (isGroupReservation && assetGroup) {
+                const group = $assetGroups.find(g => g.id === assetGroup);
+                if (group) {
+                    availableAssets = group.assets.filter(groupAsset => {
+                        const hasOverlap = allAppointments.some(app =>
+                            app.asset === groupAsset &&
+                            app.startTime < endTimestamp &&
+                            app.endTime > startTimestamp
+                        );
+                        return !hasOverlap;
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error calculating available assets:', error);
+        }
+    }
 
     afterUpdate(() => {
         renderCount++;
@@ -50,10 +92,24 @@
         populateForm(editAppointment);
     }
 
+    $: {
+        if (isGroupReservation && startDateObj && endDateObj && startTime && endTime) {
+            calculateAvailableAssets();
+        }
+    }
+
     function populateForm(appointment: Partial<Appointment>) {
         asset = appointment.asset || '';
         title = appointment.title || '';
         description = appointment.description || '';
+        isGroupReservation = appointment.isGroupReservation || false;
+
+        if (isGroupReservation) {
+            const group = $assetGroups.find(g => g.assets.some(a => a === asset));
+            if (group) {
+                assetGroup = group.id;
+            }
+        }
 
         if (appointment.startTime) {
             const startDateTime = new Date(appointment.startTime * 1000);
@@ -78,6 +134,10 @@
 
             endTime = endDateTime.toTimeString().split(' ')[0].substring(0, 5);
         }
+
+        if (isGroupReservation) {
+            calculateAvailableAssets();
+        }
     }
 
     function closeModal() {
@@ -86,6 +146,7 @@
 
     function resetForm() {
         asset = '';
+        assetGroup = '';
         title = '';
         description = '';
         startDateObj = null;
@@ -93,7 +154,9 @@
         startTime = '09:00';
         endTime = '17:00';
         errorMessage = '';
+        isGroupReservation = false;
         editAppointment = null;
+        availableAssets = [];
     }
 
     function formatDateForTimestamp(dateObj: Date | null): string {
@@ -111,7 +174,21 @@
             isLoading = true;
             errorMessage = '';
 
-            if (!asset || !startDateObj || !endDateObj) {
+            if (isGroupReservation) {
+                if (!assetGroup || availableAssets.length === 0) {
+                    errorMessage = 'Geen beschikbare assets in deze groep voor de geselecteerde tijd';
+                    isLoading = false;
+                    return;
+                }
+
+                asset = availableAssets[0];
+            } else if (!asset) {
+                errorMessage = 'Selecteer een asset';
+                isLoading = false;
+                return;
+            }
+
+            if (!startDateObj || !endDateObj) {
                 errorMessage = 'Vul alle verplichte velden in';
                 console.log('Validation error:', errorMessage);
                 isLoading = false;
@@ -168,11 +245,47 @@
     function handleStartTimeSelect(event) {
         lastTimepickerEvent = 'startTime';
         startTime = event.detail.time || event.detail;
+
+        if (isGroupReservation) {
+            calculateAvailableAssets();
+        }
     }
 
     function handleEndTimeSelect(event) {
         lastTimepickerEvent = 'endTime';
         endTime = event.detail.time || event.detail;
+
+        if (isGroupReservation) {
+            calculateAvailableAssets();
+        }
+    }
+
+    function toggleGroupReservation() {
+        isGroupReservation = !isGroupReservation;
+
+        if (isGroupReservation) {
+            asset = '';
+
+            if (!assetGroup && editAppointment && editAppointment.asset) {
+                const group = $assetGroups.find(g => g.assets.some(a => a === editAppointment.asset));
+                if (group) {
+                    assetGroup = group.id;
+                    calculateAvailableAssets();
+                }
+            }
+        } else {
+            if (availableAssets.includes(asset)) {
+                // Doe niets, behoud de asset
+            } else if (availableAssets.length > 0) {
+                asset = availableAssets[0];
+            }
+        }
+    }
+
+    function handleGroupChange() {
+        if (isGroupReservation && assetGroup) {
+            calculateAvailableAssets();
+        }
     }
 </script>
 
@@ -189,7 +302,40 @@
             </Alert>
         {/if}
 
-        <FloatingLabelInput id="asset" required bind:value={asset}>Asset</FloatingLabelInput>
+        <div class="flex items-center gap-2 mb-4">
+            <input
+                    type="checkbox"
+                    id="groupReservation"
+                    bind:checked={isGroupReservation}
+                    on:change={toggleGroupReservation}
+            />
+            <Label for="groupReservation" class="cursor-pointer">Groepsreservering</Label>
+        </div>
+
+        {#if isGroupReservation}
+            <div>
+                <Label for="assetGroup">Assetgroep *</Label>
+                <Select id="assetGroup" bind:value={assetGroup} on:change={handleGroupChange} required>
+                    <option value="" disabled selected>Selecteer een groep</option>
+                    {#each $assetGroups || [] as group}
+                        <option value={group.id}>{group.name}</option>
+                    {/each}
+                </Select>
+
+                {#if assetGroup && availableAssets.length === 0 && startDateObj && endDateObj}
+                    <p class="text-red-500 text-sm mt-1">
+                        Geen beschikbare assets in deze groep voor de geselecteerde tijd
+                    </p>
+                {:else if assetGroup && availableAssets.length > 0}
+                    <p class="text-green-600 text-sm mt-1">
+                        {availableAssets.length} beschikbare asset(s): {availableAssets.join(', ')}
+                    </p>
+                {/if}
+            </div>
+        {:else}
+            <FloatingLabelInput id="asset" required bind:value={asset}>Asset</FloatingLabelInput>
+        {/if}
+
         <FloatingLabelInput id="title" bind:value={title}>Huurder</FloatingLabelInput>
 
         <div>
@@ -247,7 +393,7 @@
 
         <div class="flex justify-end gap-2 pt-4">
             <Button color="alternative" on:click={closeModal}>Annuleren</Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading || (isGroupReservation && availableAssets.length === 0)}>
                 {isLoading ? 'Bezig met opslaan...' : (editAppointment ? 'Bijwerken' : 'Opslaan')}
             </Button>
         </div>
