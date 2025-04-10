@@ -35,7 +35,7 @@
 
 <div
         bind:this={availabilityEl}
-        class="availability-slot absolute h-12 mt-[1px] rounded flex items-center justify-center select-none
+        class="opacity-90 absolute h-12 mt-[1px] rounded flex items-center justify-center select-none
         bg-green-200 border border-green-300 shadow z-10 cursor-pointer
         transition-colors duration-200 hover:bg-green-300"
         style="left: {left}px; width: {width}px;"
@@ -53,10 +53,6 @@
 </div>
 
 <style>
-    .availability-slot {
-        opacity: 0.9;
-    }
-
     .availability-slot:hover {
         opacity: 1;
         box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.5);

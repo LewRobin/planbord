@@ -130,9 +130,8 @@
     }
 </script>
 
-<div bind:this={rowElement} class="row">
+<div bind:this={rowElement} class="relative overflow-visible h-[50px]">
     {#if !isAvailabilityRow}
-        <!-- Normale weergave voor reguliere assets -->
         {#each visibleAppointments as appointment, i (appointment._id || `${appointment.asset}-${appointment.startTime}-${i}`)}
             <AppointmentItem
                     appointment={appointment}
@@ -145,7 +144,6 @@
             />
         {/each}
     {:else}
-        <!-- Weergave voor beschikbaarheid -->
         {#each visibleAppointments as availability, i (availability._id || `${availability.asset}-${availability.startTime}-${i}`)}
             <AvailabilityItem
                     availability={availability}
@@ -156,9 +154,9 @@
         {/each}
     {/if}
 
-    <div class="cells" style="width: {totalWidth}px;">
+    <div class="block whitespace-nowrap h-[50px] relative" style="width: {totalWidth}px;">
         {#each visibleCellPositions as cellIndex (cellIndex)}
-            <div class="cell-placeholder"
+            <div class="h-[50px] absolute"
                  class:new-cell={isNewCell(cellIndex)}
                  style="left: {cellIndex * CELL_WIDTH_PX}px; width: {CELL_WIDTH_PX}px;"
                  in:fly={{ x: 30, duration: isNewCell(cellIndex) ? 800 : 300, delay: isNewCell(cellIndex) ? 200 : 0 }}>
@@ -184,28 +182,3 @@
             on:updated
     />
 </div>
-
-<style>
-    .cell-placeholder {
-        position: absolute;
-        height: 50px;
-        transition: background-color 0.5s ease;
-    }
-
-    .new-cell {
-        background-color: rgba(173, 216, 230, 0.2);
-    }
-
-    .row {
-        position: relative;
-        overflow: visible;
-        height: 50px;
-    }
-
-    .cells {
-        display: block;
-        white-space: nowrap;
-        height: 50px;
-        position: relative;
-    }
-</style>
