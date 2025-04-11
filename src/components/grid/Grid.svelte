@@ -223,7 +223,7 @@
                  on:scroll={handleRowsScroll}>
                 {#if $assetGroups && $assetGroups.length > 0}
                     {#each $assetGroups as group (group.id)}
-                        <div class="group-grid-header {$collapsedGroups[group.id] ? 'collapsed' : ''}">
+                        <div class="bg-white dark:bg-gray-400 {$collapsedGroups[group.id] ? 'collapsed' : ''}">
                             <Row
                                     appointments={$collapsedGroups[group.id] ? generateGroupAvailabilityData(group) : []}
                                     {totalDaysLoaded}
